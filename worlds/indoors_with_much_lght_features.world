@@ -1,18 +1,5 @@
 <sdf version='1.6'>
   <world name='default'>
-    <light name='sun' type='directional'>
-      <cast_shadows>1</cast_shadows>
-      <pose frame=''>0 0 10 0 -0 0</pose>
-      <diffuse>0.8 0.8 0.8 1</diffuse>
-      <specular>0.1 0.1 0.1 1</specular>
-      <attenuation>
-        <range>1000</range>
-        <constant>0.9</constant>
-        <linear>0.01</linear>
-        <quadratic>0.001</quadratic>
-      </attenuation>
-      <direction>-0.5 0.5 -1</direction>
-    </light>
     <model name='ground_plane'>
       <static>1</static>
       <link name='link'>
@@ -81,18 +68,18 @@
       <heading_deg>0</heading_deg>
     </spherical_coordinates>
     <state world_name='default'>
-      <sim_time>3082 715000000</sim_time>
-      <real_time>53 942175811</real_time>
-      <wall_time>1542700375 731245187</wall_time>
-      <iterations>48765</iterations>
+      <sim_time>3725 506000000</sim_time>
+      <real_time>62 565487435</real_time>
+      <wall_time>1542700479 300304276</wall_time>
+      <iterations>56002</iterations>
       <model name='Dumpster'>
         <pose frame=''>7.92198 7.22127 0.000917 0 -2e-06 0.772608</pose>
         <scale>1 1 1</scale>
         <link name='link'>
           <pose frame=''>7.92198 7.22127 0.000917 0 -2e-06 0.772608</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0.00432 -0.004211 -3e-06 1.44002 1.55874 -3.14159</acceleration>
-          <wrench>-0.00432 -0.004211 -3e-06 0 -0 0</wrench>
+          <acceleration>-0.00432 -0.004211 0 1.44002 1.55875 -3.14159</acceleration>
+          <wrench>-0.00432 -0.004211 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='Dumpster_0'>
@@ -101,8 +88,8 @@
         <link name='link'>
           <pose frame=''>12.1832 -2.35603 0.000917 0 -2e-06 -2.7e-05</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0.006033 0 -3e-06 -0.000177 -0.28068 4e-06</acceleration>
-          <wrench>-0.006033 0 -3e-06 0 -0 0</wrench>
+          <acceleration>-0.006033 0 0 -0.000177 -0.280682 4e-06</acceleration>
+          <wrench>-0.006033 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='Dumpster_1'>
@@ -111,8 +98,8 @@
         <link name='link'>
           <pose frame=''>17.1925 2.49423 0.000917 0 -2e-06 -2.7e-05</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0.006033 0 -3e-06 -0.000177 -0.28068 4e-06</acceleration>
-          <wrench>-0.006033 0 -3e-06 0 -0 0</wrench>
+          <acceleration>-0.006033 0 0 -0.000177 -0.280682 4e-06</acceleration>
+          <wrench>-0.006033 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='Dumpster_2'>
@@ -121,8 +108,8 @@
         <link name='link'>
           <pose frame=''>7.82205 11.4837 0.000917 0 -2e-06 -2.7e-05</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0.006033 0 -3e-06 -0.000177 -0.28068 4e-06</acceleration>
-          <wrench>-0.006033 0 -3e-06 0 -0 0</wrench>
+          <acceleration>-0.006033 0 0 -0.000177 -0.280682 4e-06</acceleration>
+          <wrench>-0.006033 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='Dumpster_2_clone'>
@@ -131,18 +118,18 @@
         <link name='link'>
           <pose frame=''>-6.6488 2.98057 0.000917 0 -2e-06 -2.7e-05</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0.006033 0 -3e-06 -0.000177 -0.28068 4e-06</acceleration>
-          <wrench>-0.006033 0 -3e-06 0 -0 0</wrench>
+          <acceleration>-0.006033 0 0 -0.000177 -0.280682 4e-06</acceleration>
+          <wrench>-0.006033 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='Dumpster_3'>
-        <pose frame=''>7.28909 -10.2555 0.000917 0 -2e-06 -2.7e-05</pose>
+        <pose frame=''>7.29306 -10.2558 0.000917 0 -2e-06 -0.000431</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose frame=''>7.28909 -10.2555 0.000917 0 -2e-06 -2.7e-05</pose>
+          <pose frame=''>7.29306 -10.2558 0.000917 0 -2e-06 -0.000431</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0.006033 0 -3e-06 -0.000177 -0.28068 4e-06</acceleration>
-          <wrench>-0.006033 0 -3e-06 0 -0 0</wrench>
+          <acceleration>-0.006033 3e-06 0 -0.002831 -0.280682 4e-06</acceleration>
+          <wrench>-0.006033 3e-06 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='Dumpster_3_clone'>
@@ -151,8 +138,8 @@
         <link name='link'>
           <pose frame=''>1.94605 -5.74635 0.000917 0 -2e-06 -2.7e-05</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0.006033 0 -3e-06 -0.000177 -0.28068 4e-06</acceleration>
-          <wrench>-0.006033 0 -3e-06 0 -0 0</wrench>
+          <acceleration>-0.006033 0 0 -0.000177 -0.280682 4e-06</acceleration>
+          <wrench>-0.006033 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='Dumpster_4'>
@@ -161,111 +148,111 @@
         <link name='link'>
           <pose frame=''>14.5835 0.231094 0.000917 0 -2e-06 -2.7e-05</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0.006033 0 -3e-06 -0.000177 -0.28068 4e-06</acceleration>
-          <wrench>-0.006033 0 -3e-06 0 -0 0</wrench>
+          <acceleration>-0.006033 0 0 -0.000177 -0.280682 4e-06</acceleration>
+          <wrench>-0.006033 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='RGB_Walls_And_Doors'>
-        <pose frame=''>4.36903 0.626539 0 0 -0 0</pose>
+        <pose frame=''>4.41935 0.608514 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='Wall_13'>
-          <pose frame=''>-0.39897 13.6797 0 0 -0 3.14159</pose>
+          <pose frame=''>-0.348647 13.6617 0 0 -0 3.14159</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='Wall_15'>
-          <pose frame=''>-3.32397 -12.4203 0 0 -0 3.14159</pose>
+          <pose frame=''>-3.27365 -12.4383 0 0 -0 3.14159</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='Wall_19'>
-          <pose frame=''>19.3094 0.190304 0 0 -0 1.5708</pose>
+          <pose frame=''>19.3598 0.172279 0 0 -0 1.5708</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='Wall_23'>
-          <pose frame=''>6.03443 4.0153 0 0 -0 3.14159</pose>
+          <pose frame=''>6.08475 3.99727 0 0 -0 3.14159</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='Wall_24'>
-          <pose frame=''>2.35943 8.81531 0 0 -0 1.5708</pose>
+          <pose frame=''>2.40975 8.79728 0 0 -0 1.5708</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='Wall_32'>
-          <pose frame=''>-3.97106 9.5436 0 0 -0 1.5708</pose>
+          <pose frame=''>-3.92074 9.52557 0 0 -0 1.5708</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='Wall_38'>
-          <pose frame=''>-7.27107 5.3686 0 0 -0 3.14159</pose>
+          <pose frame=''>-7.22075 5.35057 0 0 -0 3.14159</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='Wall_4'>
-          <pose frame=''>6.77603 -12.4203 0 0 -0 3.14159</pose>
+          <pose frame=''>6.82635 -12.4383 0 0 -0 3.14159</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='Wall_40'>
-          <pose frame=''>-10.535 -3.52584 0 0 0 -1.56674</pose>
+          <pose frame=''>-10.4846 -3.54387 0 0 0 -1.56674</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='Wall_42'>
-          <pose frame=''>-10.5711 9.5436 0 0 -0 1.5708</pose>
+          <pose frame=''>-10.5207 9.52557 0 0 -0 1.5708</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='Wall_44'>
-          <pose frame=''>-10.5711 0.818603 0 0 0 -1.5708</pose>
+          <pose frame=''>-10.5207 0.800578 0 0 0 -1.5708</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='Wall_53'>
-          <pose frame=''>-0.36906 -3.61552 0 0 -0 0</pose>
+          <pose frame=''>-0.318737 -3.63355 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='Wall_55'>
-          <pose frame=''>9.80594 -8.04052 0 0 0 -1.5708</pose>
+          <pose frame=''>9.85626 -8.05855 0 0 0 -1.5708</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='Wall_64'>
-          <pose frame=''>9.80052 4.80316 0 0 -0 1.5708</pose>
+          <pose frame=''>9.85084 4.78513 0 0 -0 1.5708</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='Wall_67'>
-          <pose frame=''>14.6344 5.1153 0 0 -0 3.14159</pose>
+          <pose frame=''>14.6848 5.09727 0 0 -0 3.14159</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='Wall_69'>
-          <pose frame=''>14.6344 -4.73469 0 0 -0 3.14159</pose>
+          <pose frame=''>14.6848 -4.75272 0 0 -0 3.14159</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='Wall_71'>
-          <pose frame=''>-0.24302 -5.52194 0 0 -0 1.5708</pose>
+          <pose frame=''>-0.192697 -5.53997 0 0 -0 1.5708</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -312,33 +299,33 @@
         </link>
       </model>
       <model name='cube_20k_0'>
-        <pose frame=''>16.8456 -3.07325 0.5 0 1e-06 0.002725</pose>
+        <pose frame=''>16.8456 -3.07324 0.5 -0 1e-06 0.002723</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose frame=''>16.8456 -3.07325 1 0 1e-06 0.002725</pose>
+          <pose frame=''>16.8456 -3.07324 1 -0 1e-06 0.002723</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>2.61563 0.060191 -0.499721 3.08152 0.526249 3.14122</acceleration>
-          <wrench>2.61563 0.060191 -0.499721 0 -0 0</wrench>
+          <acceleration>2.61563 0.060186 -0.499722 3.08153 0.526248 3.14122</acceleration>
+          <wrench>2.61563 0.060186 -0.499722 0 -0 0</wrench>
         </link>
       </model>
       <model name='cube_20k_1'>
-        <pose frame=''>2.28258 -10.5166 0.5 0 1e-06 -0.007298</pose>
+        <pose frame=''>2.28258 -10.5166 0.5 -0 1e-06 -0.007303</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose frame=''>2.28258 -10.5166 1 0 1e-06 -0.007298</pose>
+          <pose frame=''>2.28258 -10.5166 1 -0 1e-06 -0.007303</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>2.61614 0.03372 -0.499898 3.10799 0.525734 3.14122</acceleration>
-          <wrench>2.61614 0.03372 -0.499898 0 -0 0</wrench>
+          <acceleration>2.61614 0.033707 -0.499898 3.108 0.525734 3.14122</acceleration>
+          <wrench>2.61614 0.033707 -0.499898 0 -0 0</wrench>
         </link>
       </model>
       <model name='cube_20k_1_clone'>
-        <pose frame=''>12.5314 2.80515 0.5 -0 1e-06 -0.007278</pose>
+        <pose frame=''>12.5314 2.80516 0.5 0 1e-06 -0.007286</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose frame=''>12.5314 2.80515 1 -0 1e-06 -0.007278</pose>
+          <pose frame=''>12.5314 2.80516 1 0 1e-06 -0.007286</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>2.61614 0.033773 -0.499897 3.10794 0.525735 3.14122</acceleration>
-          <wrench>2.61614 0.033773 -0.499897 0 -0 0</wrench>
+          <acceleration>2.61614 0.033752 -0.499897 3.10796 0.525734 3.14122</acceleration>
+          <wrench>2.61614 0.033752 -0.499897 0 -0 0</wrench>
         </link>
       </model>
       <model name='drc_practice_blue_cylinder'>
@@ -392,43 +379,43 @@
         </link>
       </model>
       <model name='first_2015_trash_can'>
-        <pose frame=''>4.15153 11.1718 -2e-06 -4e-06 1e-05 -0.002172</pose>
+        <pose frame=''>4.1517 11.1718 -4e-06 1.1e-05 1.6e-05 -0.003196</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose frame=''>4.15153 11.1718 -2e-06 -4e-06 1e-05 -0.002172</pose>
+          <pose frame=''>4.1517 11.1718 -4e-06 1.1e-05 1.6e-05 -0.003196</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>5.56825 -0.810383 3.48654 -0.941261 0.588886 -3.14135</acceleration>
-          <wrench>26.8989 -3.91477 16.8427 0 -0 0</wrench>
+          <acceleration>3.24112 -0.475065 -2.0654 -1.85094 0.625307 3.14058</acceleration>
+          <wrench>15.6571 -2.29493 -9.97746 0 -0 0</wrench>
         </link>
       </model>
       <model name='first_2015_trash_can_clone'>
-        <pose frame=''>-6.44563 7.17336 -3e-06 0 9e-06 -0.005119</pose>
+        <pose frame=''>-6.44541 7.17333 -7e-06 -1.4e-05 6e-06 -0.00618</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose frame=''>-6.44563 7.17336 -3e-06 0 9e-06 -0.005119</pose>
+          <pose frame=''>-6.44541 7.17333 -7e-06 -1.4e-05 6e-06 -0.00618</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-3.51833 -0.225803 -1.22489 -2.71188 0.146 -2.83966</acceleration>
-          <wrench>-16.9962 -1.0908 -5.91716 0 -0 0</wrench>
+          <acceleration>3.17711 6.1181 11.8441 -0.911347 0.829852 3.07502</acceleration>
+          <wrench>15.3479 29.5551 57.2159 0 -0 0</wrench>
         </link>
       </model>
       <model name='first_2015_trash_can_clone_0'>
-        <pose frame=''>7.05626 1.57738 -3e-06 1e-06 1.5e-05 -0.002947</pose>
+        <pose frame=''>7.05644 1.57734 2e-06 2.8e-05 1.1e-05 -0.003906</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose frame=''>7.05626 1.57738 -3e-06 1e-06 1.5e-05 -0.002947</pose>
+          <pose frame=''>7.05644 1.57734 2e-06 2.8e-05 1.1e-05 -0.003906</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>4.55313 -0.666288 1.06541 1.80907 -0.203759 4.4e-05</acceleration>
-          <wrench>21.9951 -3.21868 5.14673 0 -0 0</wrench>
+          <acceleration>-1.62162 2.59454 -2.48281 2.48767 1.20644 -3.13184</acceleration>
+          <wrench>-7.83368 12.5336 -11.9939 0 -0 0</wrench>
         </link>
       </model>
       <model name='first_2015_trash_can_clone_clone'>
-        <pose frame=''>-8.69369 11.7719 -1e-06 2.1e-05 3e-06 -0.000203</pose>
+        <pose frame=''>-8.6935 11.7719 0 1.6e-05 1.3e-05 -0.001381</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose frame=''>-8.69369 11.7719 -1e-06 2.1e-05 3e-06 -0.000203</pose>
+          <pose frame=''>-8.6935 11.7719 0 1.6e-05 1.3e-05 -0.001381</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>1.78108 -0.255677 -5.55129 0.694187 -1.44722 -0.00016</acceleration>
-          <wrench>8.60399 -1.23512 -26.817 0 -0 0</wrench>
+          <acceleration>-3.05012 5.61299 5.50163 1.47547 -0.217992 2.7525</acceleration>
+          <wrench>-14.7344 27.115 26.577 0 -0 0</wrench>
         </link>
       </model>
       <model name='fountain'>
@@ -462,60 +449,60 @@
         </link>
       </model>
       <model name='table'>
-        <pose frame=''>-8.45641 -0.835319 -1e-05 0 -0 0</pose>
+        <pose frame=''>-8.45641 -0.835319 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose frame=''>-8.45641 -0.835319 -1e-05 0 -0 0</pose>
+          <pose frame=''>-8.45641 -0.835319 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 -9.8 0 -0 0</acceleration>
           <wrench>0 0 -9.8 0 -0 0</wrench>
         </link>
       </model>
       <model name='table_0'>
-        <pose frame=''>4.11112 -8.08132 -1e-05 0 -0 0</pose>
+        <pose frame=''>4.11112 -8.08132 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose frame=''>4.11112 -8.08132 -1e-05 0 -0 0</pose>
+          <pose frame=''>4.11112 -8.08132 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 -9.8 0 -0 0</acceleration>
           <wrench>0 0 -9.8 0 -0 0</wrench>
         </link>
       </model>
       <model name='table_0_clone'>
-        <pose frame=''>-8.04629 -9.85646 -3e-06 0 4e-06 0.74218</pose>
+        <pose frame=''>-8.04629 -9.85646 0 0 -0 0.74218</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose frame=''>-8.04629 -9.85646 -3e-06 0 4e-06 0.74218</pose>
+          <pose frame=''>-8.04629 -9.85646 0 0 -0 0.74218</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 -9.8 0 -0 0</acceleration>
           <wrench>0 0 -9.8 0 -0 0</wrench>
         </link>
       </model>
       <model name='table_0_clone_0'>
-        <pose frame=''>-2.70032 -6.28133 -3e-06 -2e-06 4e-06 0.788199</pose>
+        <pose frame=''>-2.70032 -6.28133 0 0 -0 0.788199</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose frame=''>-2.70032 -6.28133 -3e-06 -2e-06 4e-06 0.788199</pose>
+          <pose frame=''>-2.70032 -6.28133 0 0 -0 0.788199</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 -9.8 0 -0 0</acceleration>
           <wrench>0 0 -9.8 0 -0 0</wrench>
         </link>
       </model>
       <model name='table_1'>
-        <pose frame=''>4.6721 -1.71836 0 0 -0 0.603298</pose>
+        <pose frame=''>4.6721 -1.71836 -1e-05 0 -0 0.603298</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose frame=''>4.6721 -1.71836 0 0 -0 0.603298</pose>
+          <pose frame=''>4.6721 -1.71836 -1e-05 0 -0 0.603298</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 -9.8 0 -0 0</acceleration>
           <wrench>0 0 -9.8 0 -0 0</wrench>
         </link>
       </model>
       <model name='table_2'>
-        <pose frame=''>4.02933 1.6454 0 0 -0 0.661845</pose>
+        <pose frame=''>4.04441 1.36616 -5e-06 1e-06 -0 0.634493</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose frame=''>4.02933 1.6454 0 0 -0 0.661845</pose>
+          <pose frame=''>4.04441 1.36616 -5e-06 1e-06 -0 0.634493</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 -9.8 0 -0 0</acceleration>
           <wrench>0 0 -9.8 0 -0 0</wrench>
@@ -543,13 +530,73 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <light name='sun'>
-        <pose frame=''>0 0 10 0 -0 0</pose>
+      <light name='user_point_light_0'>
+        <pose frame=''>-7.54247 -9.91328 3.87051 0 -0 0</pose>
+      </light>
+      <light name='user_point_light_1'>
+        <pose frame=''>-3.44738 -7.16326 3.0544 0 -0 0</pose>
+      </light>
+      <light name='user_point_light_10'>
+        <pose frame=''>-3.11524 -1.06254 1 0 -0 0</pose>
+      </light>
+      <light name='user_point_light_11'>
+        <pose frame=''>4.98481 -10.5929 1 0 -0 0</pose>
+      </light>
+      <light name='user_point_light_12'>
+        <pose frame=''>-5.71322 3.06879 3.26401 0 -0 0</pose>
+      </light>
+      <light name='user_point_light_13'>
+        <pose frame=''>-6.35923 7.77921 3.6106 0 -0 0</pose>
+      </light>
+      <light name='user_point_light_14'>
+        <pose frame=''>-1.06596 7.9133 2.24683 0 -0 0</pose>
+      </light>
+      <light name='user_point_light_15'>
+        <pose frame=''>5.87293 9.33216 3.42149 0 -0 0</pose>
+      </light>
+      <light name='user_point_light_16'>
+        <pose frame=''>4.08358 5.98018 2.34388 0 -0 0</pose>
+      </light>
+      <light name='user_point_light_17'>
+        <pose frame=''>8.35214 0.282641 6.54293 0 -0 0</pose>
+      </light>
+      <light name='user_point_light_18'>
+        <pose frame=''>8.8995 -11.1983 2.43185 0 -0 0</pose>
+      </light>
+      <light name='user_point_light_19'>
+        <pose frame=''>14.6096 -0.493737 7.23876 0 -0 0</pose>
+      </light>
+      <light name='user_point_light_2'>
+        <pose frame=''>1.13728 -5.20748 1 0 -0 0</pose>
+      </light>
+      <light name='user_point_light_20'>
+        <pose frame=''>17.5609 3.52514 3.24959 0 -0 0</pose>
+      </light>
+      <light name='user_point_light_3'>
+        <pose frame=''>6.62344 -7.16746 4.90134 0 -0 0</pose>
+      </light>
+      <light name='user_point_light_4'>
+        <pose frame=''>-8.37406 2.59715 1 0 -0 0</pose>
+      </light>
+      <light name='user_point_light_5'>
+        <pose frame=''>-9.41908 12.6084 2.06693 0 -0 0</pose>
+      </light>
+      <light name='user_point_light_6'>
+        <pose frame=''>-0.659419 11.8865 1.93698 0 -0 0</pose>
+      </light>
+      <light name='user_point_light_7'>
+        <pose frame=''>9.13789 12.5179 1 0 -0 0</pose>
+      </light>
+      <light name='user_point_light_8'>
+        <pose frame=''>4.3661 -1.64443 2.65727 0 -0 0</pose>
+      </light>
+      <light name='user_point_light_9'>
+        <pose frame=''>-3.9429 4.052 1 0 -0 0</pose>
       </light>
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose frame=''>0.059648 -0.220281 12.4411 0.75704 1.5643 -2.36638</pose>
+        <pose frame=''>0.972053 3.99752 29.4649 0.757041 1.5643 -2.36638</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
@@ -3634,6 +3681,279 @@
       </link>
       <pose frame=''>-6.6488 2.98057 0.050917 0 -2e-06 -2.7e-05</pose>
     </model>
+    <light name='user_point_light_0' type='point'>
+      <pose frame=''>-7.54247 -9.91328 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+    <light name='user_point_light_2' type='point'>
+      <pose frame=''>1.13728 -5.20748 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+    <light name='user_point_light_4' type='point'>
+      <pose frame=''>-8.37406 2.59715 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+    <light name='user_point_light_5' type='point'>
+      <pose frame=''>-9.41908 12.6084 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+    <light name='user_point_light_6' type='point'>
+      <pose frame=''>-0.659419 11.8865 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+    <light name='user_point_light_7' type='point'>
+      <pose frame=''>9.13789 12.5179 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+    <light name='user_point_light_8' type='point'>
+      <pose frame=''>4.3661 -1.64443 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+    <light name='user_point_light_9' type='point'>
+      <pose frame=''>-3.9429 4.052 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+    <light name='user_point_light_10' type='point'>
+      <pose frame=''>-3.11524 -1.06254 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+    <light name='user_point_light_11' type='point'>
+      <pose frame=''>4.98481 -10.5929 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+    <light name='user_point_light_3' type='point'>
+      <pose frame=''>6.62344 -7.16746 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+    <light name='user_point_light_1' type='point'>
+      <pose frame=''>-3.44738 -7.16326 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+    <light name='user_point_light_12' type='point'>
+      <pose frame=''>-5.71322 3.06879 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+    <light name='user_point_light_13' type='point'>
+      <pose frame=''>-6.35923 7.77921 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+    <light name='user_point_light_14' type='point'>
+      <pose frame=''>-1.06596 7.9133 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+    <light name='user_point_light_15' type='point'>
+      <pose frame=''>5.87293 9.33216 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+    <light name='user_point_light_16' type='point'>
+      <pose frame=''>4.08358 5.98018 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+    <light name='user_point_light_17' type='point'>
+      <pose frame=''>8.35214 0.282641 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+    <light name='user_point_light_18' type='point'>
+      <pose frame=''>8.8995 -11.1983 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+    <light name='user_point_light_19' type='point'>
+      <pose frame=''>14.6096 -0.493737 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+    <light name='user_point_light_20' type='point'>
+      <pose frame=''>17.5609 3.52514 1 0 -0 0</pose>
+      <diffuse>0.5 0.5 0.5 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>20</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
     <model name='RGB_Walls_And_Doors'>
       <link name='Wall_13'>
         <pose frame=''>-4.768 13.0532 0 0 -0 3.14159</pose>
@@ -5764,7 +6084,7 @@
       </link>
       <static>1</static>
       <allow_auto_disable>1</allow_auto_disable>
-      <pose frame=''>4.36903 0.626539 0 0 -0 0</pose>
+      <pose frame=''>0.951254 -10.8592 0 0 -0 0</pose>
     </model>
   </world>
 </sdf>
