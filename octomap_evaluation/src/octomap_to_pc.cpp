@@ -18,14 +18,14 @@ namespace octomap_to_pc
   /******************************/
   Converter::Converter(int argc, char *argv[])
   {
-    // Get the octomap filename from the user. Octomaps are saved in the octomap_evaluation/maps directory
+    // Get the octomap filename from the user
     _filename = argv[1];
     // Create the full path. Consider we are running the node, when pwd = ~/catkin_ws
     _filename = "src/one-SLAM-2-rule-them-all/octomap_evaluation/maps/" + _filename;
 
     _octree = readOctomap(_filename);
 
-    std::string outputFilename = "edit.bt";
+    octomapToPointCloud(_octree);
 }
 
 
@@ -46,6 +46,14 @@ namespace octomap_to_pc
     octomap::ColorOcTree* octree = dynamic_cast<octomap::ColorOcTree*>(tree);
 
     return octree;
+  }
+
+  /******************************/
+  /*     octomapToPointCloud    */
+  /******************************/
+  void Converter::octomapToPointCloud(octomap::ColorOcTree* octree)
+  {
+    // TODO
   }
 
 }

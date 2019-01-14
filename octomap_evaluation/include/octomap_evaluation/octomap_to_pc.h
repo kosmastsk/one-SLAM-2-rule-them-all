@@ -23,12 +23,14 @@ namespace octomap_to_pc
 class Converter
 {
 private:
+  // Variables
   ros::NodeHandle _nh;
   std::string _filename;
   octomap::ColorOcTree* _octree;
 
-  octomap::ColorOcTree* readOctomap(std::string _filename);
-  //void octomapToPointCloud(octomap::AbstractOcTree _tree);
+  // Methods
+  octomap::ColorOcTree* readOctomap(std::string filename);
+  void octomapToPointCloud(octomap::ColorOcTree* octree);
 
 public:
   Converter();
