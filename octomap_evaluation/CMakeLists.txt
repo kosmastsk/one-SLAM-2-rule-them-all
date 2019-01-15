@@ -10,6 +10,7 @@ project(octomap_evaluation)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   octomap_ros
+  pcl_ros
 )
 find_package(PCL REQUIRED)
 
@@ -40,6 +41,7 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
   ${PCL_INCLUDE_DIRS}
 )
+
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
 add_executable(octomap_to_pc
@@ -47,4 +49,3 @@ add_executable(octomap_to_pc
   src/octomap_to_pc.cpp)
 target_link_libraries(octomap_to_pc ${catkin_LIBRARIES} ${PCL_LIBRARIES})
 add_dependencies(octomap_to_pc ${catkin_EXPORTED_TARGETS})
-
