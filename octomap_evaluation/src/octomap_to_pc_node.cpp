@@ -12,7 +12,7 @@ int main(int argc, char **argv) {
              "<filename.[ot|bt]>\n");
     return 1;
   } else {
-    octomap_to_pc::Converter object(argc, argv);
+    octomap_to_pc::Converter object(argv);
   }
 
   ros::spin();

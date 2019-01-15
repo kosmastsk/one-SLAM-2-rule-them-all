@@ -31,7 +31,7 @@ private:
   ros::NodeHandle _nh;
   std::string _filename;
   octomap::ColorOcTree *_octree;
-  pcl::PointCloud<pcl::PointXYZRGB> _pointCloud;
+  pcl::PointCloud<pcl::PointXYZRGB> _cloud;
 
   // Methods
   octomap::ColorOcTree *readOctomap(std::string filename);
@@ -40,7 +40,7 @@ private:
 
 public:
   Converter();
-  Converter(int argc, char *argv[]);
+  Converter(char *argv[]);
   ~Converter();
 };
 } // namespace octomap_to_pc
