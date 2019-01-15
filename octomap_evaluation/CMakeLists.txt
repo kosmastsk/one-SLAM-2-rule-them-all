@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   octomap_ros
 )
+find_package(PCL REQUIRED)
 
 ###################################
 ## catkin specific configuration ##
@@ -37,10 +38,13 @@ catkin_package(
 include_directories(
  include
   ${catkin_INCLUDE_DIRS}
+  ${PCL_INCLUDE_DIRS}
 )
-
+link_directories(${PCL_LIBRARY_DIRS})
+add_definitions(${PCL_DEFINITIONS})
 add_executable(octomap_to_pc
   src/octomap_to_pc_node.cpp
   src/octomap_to_pc.cpp)
-target_link_libraries(octomap_to_pc ${catkin_LIBRARIES})
+target_link_libraries(octomap_to_pc ${catkin_LIBRARIES} ${PCL_LIBRARIES})
 add_dependencies(octomap_to_pc ${catkin_EXPORTED_TARGETS})
+
