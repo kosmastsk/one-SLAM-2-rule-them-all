@@ -21,7 +21,7 @@ namespace octomap_to_pc
     // Get the octomap filename from the user
     _filename = argv[1];
     // Create the full path. Consider we are running the node, when pwd = ~/catkin_ws
-    _filename = "src/one-SLAM-2-rule-them-all/octomap_evaluation/maps/" + _filename;
+    _filename = "/home/nikos/catkin_ws/src/octomap_evaluation/maps/" + _filename;
 
     _octree = readOctomap(_filename);
 
@@ -53,7 +53,19 @@ namespace octomap_to_pc
   /******************************/
   void Converter::octomapToPointCloud(octomap::ColorOcTree* octree)
   {
-    // TODO
+	  pcl::PointCloud<pcl::PointXYZ> cloud;
+	  cloud.is_dense=false;
+	  int i=0;
+	  for(octomap::ColorOcTree::leaf_iterator it=octree->begin_leafs(), end=octree->end_leafs(); it!=end ; ++it)
+	  {
+		  cloud.points[i].x=it.getCoordinate().x();
+		  cloud.points[i].y=it.getCoordinate().y();
+		  cloud.points[i].z=it.getCoordinate().z();
+		  i++;
+	  }
+	  pcl::io::savePCDFileASCII ("output.pcd",cloud);
+	  std::cerr <<"Saved"<<cloud.points.size()<<"date points to output.pcd" <<std::endl;
+	  return ;
   }
 
 }
