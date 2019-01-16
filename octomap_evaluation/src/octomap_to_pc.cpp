@@ -22,7 +22,7 @@ Converter::Converter(char *argv[]) {
 
   _octree = readOctomap(_filename);
 
-  _cloud = octomapToPointCloud(_octree);
+  _cloud = octomapToPointCloud(_octree, argv[1]);
 }
 
 /******************************/
@@ -44,7 +44,7 @@ octomap::ColorOcTree *Converter::readOctomap(std::string filename) {
 /*     octomapToPointCloud    */
 /******************************/
 pcl::PointCloud<pcl::PointXYZRGB>
-Converter::octomapToPointCloud(octomap::ColorOcTree *octree) {
+Converter::octomapToPointCloud(octomap::ColorOcTree *octree, char *filename) {
   pcl::PointCloud<pcl::PointXYZRGB> cloud;
 
   size_t leafs = octree->getNumLeafNodes();
@@ -73,11 +73,11 @@ Converter::octomapToPointCloud(octomap::ColorOcTree *octree) {
   ROS_INFO("%d\n", i);
 
   std::string path = ros::package::getPath("octomap_evaluation");
-  path = path.c_str() + std::string("/maps/") + std::string("pointCloud.pcd");
+  path = path.c_str() + std::string("/maps/") + filename + std::string(".pcd");
 
   pcl::io::savePCDFileASCII(path, cloud);
-  std::cerr << "Saved " << cloud.points.size()
-            << " date points to pointCloud.pcd" << std::endl;
+  std::cerr << "Saved " << cloud.points.size() << " date points to " << path
+            << std::endl;
 
   return cloud;
 }
