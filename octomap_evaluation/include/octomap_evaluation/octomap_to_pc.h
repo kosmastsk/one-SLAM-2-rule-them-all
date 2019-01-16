@@ -5,7 +5,6 @@
 
 // C++ headers
 #include <iostream>
-#include <iostream>
 #include <stdio.h>
 #include <string.h>
 

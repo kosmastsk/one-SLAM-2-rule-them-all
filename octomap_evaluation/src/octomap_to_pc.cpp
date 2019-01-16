@@ -1,6 +1,7 @@
 /* Implementation of the Octomap to Point cloud methods */
 
 #include "octomap_evaluation/octomap_to_pc.h"
+#include <math.h>
 
 namespace octomap_to_pc {
 /******************************/
@@ -46,19 +47,37 @@ pcl::PointCloud<pcl::PointXYZRGB>
 Converter::octomapToPointCloud(octomap::ColorOcTree *octree) {
   pcl::PointCloud<pcl::PointXYZRGB> cloud;
 
-  cloud.is_dense = false;
+  size_t leafs = octree->getNumLeafNodes();
+
+  cloud.width = leafs;
+  cloud.height = 1;
+  cloud.is_dense = false; // True if no points are invalid(NaN or Inf).
+
+  cloud.points.resize(cloud.width * cloud.height);
+
   int i = 0;
   for (octomap::ColorOcTree::leaf_iterator it = octree->begin_leafs(),
                                            end = octree->end_leafs();
        it != end; ++it) {
+
+    // Provide the coordinate values from octomap
     cloud.points[i].x = it.getCoordinate().x();
     cloud.points[i].y = it.getCoordinate().y();
     cloud.points[i].z = it.getCoordinate().z();
+
+    // Color
+    cloud.points[i].rgb = it->getValue();
+
     i++;
   }
-  pcl::io::savePCDFileASCII("output.pcd", cloud);
-  std::cerr << "Saved" << cloud.points.size() << "date points to output.pcd"
-            << std::endl;
+  ROS_INFO("%d\n", i);
+
+  std::string path = ros::package::getPath("octomap_evaluation");
+  path = path.c_str() + std::string("/maps/") + std::string("pointCloud.pcd");
+
+  pcl::io::savePCDFileASCII(path, cloud);
+  std::cerr << "Saved " << cloud.points.size()
+            << " date points to pointCloud.pcd" << std::endl;
 
   return cloud;
 }
