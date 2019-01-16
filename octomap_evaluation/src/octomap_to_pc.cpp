@@ -66,7 +66,9 @@ Converter::octomapToPointCloud(octomap::ColorOcTree *octree, char *filename) {
     cloud.points[i].z = it.getCoordinate().z();
 
     // Color
-    cloud.points[i].rgb = it->getValue();
+    cloud.points[i].r = it->getColor().r;
+    cloud.points[i].g = it->getColor().g;
+    cloud.points[i].b = it->getColor().b;
 
     i++;
   }
