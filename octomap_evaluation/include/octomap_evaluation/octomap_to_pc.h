@@ -33,9 +33,9 @@ private:
   pcl::PointCloud<pcl::PointXYZRGB> _cloud;
 
   // Methods
-  octomap::ColorOcTree *readOctomap(std::string filename);
-  pcl::PointCloud<pcl::PointXYZRGB>
-  octomapToPointCloud(octomap::ColorOcTree *octree, char *filename);
+  //octomap::ColorOcTree *readOctomap(std::string filename);
+  pcl::PointCloud<pcl::PointXYZRGB> octomapToPointCloud(octomap::ColorOcTree *octree, char *filename);
+  pcl::PointCloud<pcl::PointXYZRGB> octomapToPointCloud(octomap::OcTree *octree, char *filename);
 
 public:
   Converter();
