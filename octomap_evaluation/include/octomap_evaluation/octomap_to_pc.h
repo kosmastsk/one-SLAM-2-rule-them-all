@@ -29,13 +29,19 @@ private:
   // Variables
   ros::NodeHandle _nh;
   std::string _filename;
-  octomap::ColorOcTree *_octree;
-  pcl::PointCloud<pcl::PointXYZRGB> _cloud;
 
   // Methods
-  //octomap::ColorOcTree *readOctomap(std::string filename);
-  pcl::PointCloud<pcl::PointXYZRGB> octomapToPointCloud(octomap::ColorOcTree *octree, char *filename);
-  pcl::PointCloud<pcl::PointXYZRGB> octomapToPointCloud(octomap::OcTree *octree, char *filename);
+  // Different ones depending if we provide Binary or Colored octomap
+  pcl::PointCloud<pcl::PointXYZRGB>
+  octomapToPointCloud(octomap::ColorOcTree *octree, std::string filename);
+
+  pcl::PointCloud<pcl::PointXYZ> octomapToPointCloud(octomap::OcTree *octree,
+                                                     std::string filename);
+
+  void savePointCloud(pcl::PointCloud<pcl::PointXYZRGB> cloud,
+                      std::string filename);
+  void savePointCloud(pcl::PointCloud<pcl::PointXYZ> cloud,
+                      std::string filename);
 
 public:
   Converter();

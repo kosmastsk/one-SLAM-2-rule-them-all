@@ -4,50 +4,53 @@
 #include <math.h>
 
 namespace octomap_to_pc {
+
 /******************************/
 /*        Constructor         */
 /******************************/
+
 Converter::Converter() {
   ROS_INFO("Converter empty object created");
-  _filename = "indoors.ot";
+  //_filename = "indoors.ot";
 }
 
 /******************************/
 /* Constructor with arguments */
 /******************************/
+
 Converter::Converter(char *argv[]) {
   // Get the octomap filename from the user
-  //std::string path = ros::package::getPath("octomap_evaluation");
-  //_filename = path.c_str() + std::string("/maps/") + argv[1];
-  //std::cout << argv[0] << '\n';
-  //std::cout << argv[1] << '\n';
-	std::string _filename=argv[1];
-	/*** Read Octomap ***/
-	if(_filename.substr( _filename.length()-2) == "ot")
-		{
-		  octomap::AbstractOcTree *tree = octomap::AbstractOcTree::read(_filename);
-		  octomap::ColorOcTree *_octree = dynamic_cast<octomap::ColorOcTree *>(tree);
-		  _cloud = octomapToPointCloud(_octree, argv[1]);
-		}else if (_filename.substr( _filename.length()-2) == "bt")
-		{
-			using namespace octomap;
-			octomap::OcTree *_octree = new OcTree(_filename);
-			_cloud = octomapToPointCloud(_octree, argv[1]);
-		}
+  _filename = argv[1];
 
+  /*** Read Octomap ***/
+  // Change function called depending on the suffix
+  if (_filename.substr(_filename.length() - 2) == "ot") {
+    octomap::AbstractOcTree *tree = octomap::AbstractOcTree::read(_filename);
+    octomap::ColorOcTree *_octree = dynamic_cast<octomap::ColorOcTree *>(tree);
+    pcl::PointCloud<pcl::PointXYZRGB> _cloud =
+        octomapToPointCloud(_octree, argv[1]);
+
+  } else if (_filename.substr(_filename.length() - 2) == "bt") {
+    octomap::OcTree *_octree = new octomap::OcTree(_filename);
+    pcl::PointCloud<pcl::PointXYZ> _cloud =
+        octomapToPointCloud(_octree, _filename);
+  }
 }
 
 /******************************/
 /*        Destructor          */
 /******************************/
-Converter::~Converter() { ROS_INFO("Class converter has been destroyed\n"); }
 
+Converter::~Converter() { ROS_INFO("Class converter has been destroyed\n"); }
 
 /******************************/
 /*     octomapToPointCloud    */
+/*         with colour        */
 /******************************/
+
 pcl::PointCloud<pcl::PointXYZRGB>
-Converter::octomapToPointCloud(octomap::ColorOcTree *octree, char *filename) {
+Converter::octomapToPointCloud(octomap::ColorOcTree *octree,
+                               std::string filename) {
   pcl::PointCloud<pcl::PointXYZRGB> cloud;
   size_t leafs = octree->getNumLeafNodes();
 
@@ -73,21 +76,20 @@ Converter::octomapToPointCloud(octomap::ColorOcTree *octree, char *filename) {
 
     i++;
   }
-  ROS_INFO("%d\n", i);
 
-  //std::string path = ros::package::getPath("octomap_evaluation");
-  //path = path.c_str() + std::string("/maps/") + filename + std::string(".pcd");
-  pcl::io::savePCDFileASCII("output.pcd", cloud);
-  //std::cerr << "Saved " << cloud.points.size() << " date points to " << path
-   //         << std::endl;
+  savePointCloud(cloud, filename);
 
   return cloud;
 }
-/*************************/
-/*octomaptopointcloud non color*/
-pcl::PointCloud<pcl::PointXYZRGB>
-Converter::octomapToPointCloud(octomap::OcTree *octree, char *filename) {
-  pcl::PointCloud<pcl::PointXYZRGB> cloud;
+
+/******************************/
+/*     octomapToPointCloud    */
+/*       without colour       */
+/******************************/
+
+pcl::PointCloud<pcl::PointXYZ>
+Converter::octomapToPointCloud(octomap::OcTree *octree, std::string filename) {
+  pcl::PointCloud<pcl::PointXYZ> cloud;
 
   size_t leafs = octree->getNumLeafNodes();
 
@@ -99,29 +101,67 @@ Converter::octomapToPointCloud(octomap::OcTree *octree, char *filename) {
 
   int i = 0;
   for (octomap::OcTree::leaf_iterator it = octree->begin_leafs(),
-                                           end = octree->end_leafs();
+                                      end = octree->end_leafs();
        it != end; ++it) {
-
     // Provide the coordinate values from octomap
     cloud.points[i].x = it.getCoordinate().x();
     cloud.points[i].y = it.getCoordinate().y();
     cloud.points[i].z = it.getCoordinate().z();
-    // Color
-    cloud.points[i].r = 0 ;
-    cloud.points[i].g = 132 ;
-    cloud.points[i].b = 132 ;
+
     i++;
   }
-  ROS_INFO("%d\n", i);
 
-  //std::string path = ros::package::getPath("octomap_evaluation");
-  //path = path.c_str() + std::string("/maps/") + filename + std::string(".pcd");
-
-  pcl::io::savePCDFileASCII("output.pcd", cloud);
-  //std::cerr << "Saved " << cloud.points.size() << " date points to " << path
-   //         << std::endl;
+  savePointCloud(cloud, filename);
 
   return cloud;
+}
+
+/******************************/
+/*       savePointCloud       */
+/*         with colour        */
+/******************************/
+
+void Converter::savePointCloud(pcl::PointCloud<pcl::PointXYZRGB> cloud,
+                               std::string filename) {
+
+  // Edit the filename first, to remove path
+  // https://stackoverflow.com/questions/8520560/get-a-file-name-from-a-path
+  // Remove directory if present.
+  // Do this before extension removal incase directory has a period character.
+  const size_t last_slash_idx = filename.find_last_of("\\/");
+  if (std::string::npos != last_slash_idx) {
+    filename.erase(0, last_slash_idx + 1);
+  }
+
+  std::string path = ros::package::getPath("octomap_evaluation");
+  path = path.c_str() + std::string("/maps/") + filename + std::string(".pcd");
+  pcl::io::savePCDFileASCII(path, cloud);
+  std::cerr << "Saved " << cloud.points.size() << " date points to " << path
+            << std::endl;
+}
+
+/******************************/
+/*       savePointCloud       */
+/*       without colour       */
+/******************************/
+
+void Converter::savePointCloud(pcl::PointCloud<pcl::PointXYZ> cloud,
+                               std::string filename) {
+
+  // Edit the filename first, to remove path
+  // https://stackoverflow.com/questions/8520560/get-a-file-name-from-a-path
+  // Remove directory if present.
+  // Do this before extension removal incase directory has a period character.
+  const size_t last_slash_idx = filename.find_last_of("\\/");
+  if (std::string::npos != last_slash_idx) {
+    filename.erase(0, last_slash_idx + 1);
+  }
+
+  std::string path = ros::package::getPath("octomap_evaluation");
+  path = path.c_str() + std::string("/maps/") + filename + std::string(".pcd");
+  pcl::io::savePCDFileASCII(path, cloud);
+  std::cerr << "Saved " << cloud.points.size() << " date points to " << path
+            << std::endl;
 }
 
 } // namespace octomap_to_pc

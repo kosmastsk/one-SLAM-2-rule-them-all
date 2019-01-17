@@ -9,13 +9,12 @@ int main(int argc, char **argv) {
 
   if (argc != 2) {
     ROS_INFO("\n[USAGE] rosrun octomap_evaluation octomap_to_pc_node "
-             "<filename.ot>\n");
+             "<filename.[ot|bt]>\n");
     return 1;
   } else {
     octomap_to_pc::Converter object(argv);
+    ros::spin();
   }
-
-  ros::spin();
 
   return 0;
 }
