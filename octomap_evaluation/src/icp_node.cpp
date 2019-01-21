@@ -9,14 +9,15 @@ int main(int argc, char** argv)
 {
   ros::init(argc, argv, "icp_node");
 
-  if (argc != 3)
+  if (argc != 4)
   {
-    ROS_INFO("\n[USAGE] rosrun octomap_evaluation icp_node <reference_point_cloud.pcd> <reading_point_cloud.csv>\n");
+    ROS_INFO("\n[USAGE] rosrun octomap_evaluation icp_node <config_file.yaml> <reference_point_cloud.pcd> "
+             "<reading_point_cloud.pcd>\n");
     return 1;
   }
   else
   {
-    icp::Icp icp(argv);
+    icp::Transformation transformation(argv);
     ros::spin();
   }
 

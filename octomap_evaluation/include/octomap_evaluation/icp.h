@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <cassert>
+#include <fstream>
 
 // ROS headers
 #include <ros/package.h>
@@ -22,22 +23,24 @@
 
 namespace icp
 {
-class Icp
+class Transformation
 {
 private:
   // Variables
   ros::NodeHandle _nh;
   std::string _reference;
   std::string _reading;
+  std::string _params;
 
-  PointMatcher<float>::ICP _icp;  // Create the default ICP algorithm
+  // Create the default ICP algorithm
+  PointMatcher<float>::ICP _icp;
 
   // Methods
 
 public:
-  Icp();
-  Icp(char* argv[]);
-  ~Icp();
+  Transformation();
+  Transformation(char* argv[]);
+  ~Transformation();
 };
 
 }  // namespace icp
