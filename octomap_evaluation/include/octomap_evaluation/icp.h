@@ -36,6 +36,7 @@ private:
   PointMatcher<float>::ICP _icp;
 
   // Methods
+  std::string extractFilename(std::string full_path);
 
 public:
   Transformation();

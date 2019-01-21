@@ -45,15 +45,22 @@ Transformation::Transformation(char* argv[])
   PointMatcher<float>::DataPoints data_out(data);
   _icp.transformations.apply(data_out, T);
 
-  // Save files to see the results
+  // Create a filename that consists of both filenames
+
   std::string path = ros::package::getPath("octomap_evaluation");
-  path = path.c_str() + std::string("/maps/") + std::string("result_icp.pcd");
+  path = path.c_str() + std::string("/maps/") + extractFilename(_reference) + std::string("_") +
+         extractFilename(_reading) + std::string("_") + std::string("icp.pcd");
+
+  // Save files to see the results
   PointMatcherIO<float>::savePCD(data_out, path);
 
   std::cout << "Final transformation:" << std::endl << T << std::endl;
+  std::cout << "[OUTPUT FILE]: " << path << std::endl;
 
   // To preview the outputs use the following command
   // pcl_viewer -multiview 1 indoors.ot.pcd indoors_v2.ot.pcd result_icp.pcd
+  //                             OR
+  // pcl_viewer indoors.ot.pcd indoors_v2.ot.pcd result_icp.pcd
 }
 
 /******************************/
@@ -63,6 +70,26 @@ Transformation::Transformation(char* argv[])
 Transformation::~Transformation()
 {
   ROS_INFO("Class Icp has been destroyed\n");
+}
+
+std::string Transformation::extractFilename(std::string full_path)
+{
+  // https://stackoverflow.com/questions/8520560/get-a-file-name-from-a-path
+  // Remove directory if present.
+  // Do this before extension removal incase directory has a period character.
+  const size_t last_slash_idx = full_path.find_last_of("\\/");
+  if (std::string::npos != last_slash_idx)
+  {
+    full_path.erase(0, last_slash_idx + 1);
+  }
+  // Remove extension if present.
+  const size_t period_idx = full_path.rfind('.');
+  if (std::string::npos != period_idx)
+  {
+    full_path.erase(period_idx);
+  }
+
+  return full_path;
 }
 
 }  // namespace icp

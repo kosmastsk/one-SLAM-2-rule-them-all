@@ -137,7 +137,7 @@ void Converter::savePointCloud(pcl::PointCloud<pcl::PointXYZRGB> cloud, std::str
   std::string path = ros::package::getPath("octomap_evaluation");
   path = path.c_str() + std::string("/maps/") + filename + std::string(".pcd");
   pcl::io::savePCDFileASCII(path, cloud);
-  std::cerr << "Saved " << cloud.points.size() << " date points to " << path << std::endl;
+  std::cerr << "[INFO] Saved " << cloud.points.size() << " date points to " << path << std::endl;
 }
 
 /******************************/
@@ -160,7 +160,7 @@ void Converter::savePointCloud(pcl::PointCloud<pcl::PointXYZ> cloud, std::string
   std::string path = ros::package::getPath("octomap_evaluation");
   path = path.c_str() + std::string("/maps/") + filename + std::string(".pcd");
   pcl::io::savePCDFileASCII(path, cloud);
-  std::cerr << "Saved " << cloud.points.size() << " date points to " << path << std::endl;
+  std::cerr << "[INFO] Saved " << cloud.points.size() << " date points to " << path << std::endl;
 }
 
 }  // namespace octomap_to_pc

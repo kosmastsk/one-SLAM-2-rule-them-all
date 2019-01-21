@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+  <arg name="yaml_file" default="$(find octomap_evaluation)/config/icp_config.yaml"/>
+  <arg name="reference" default="$(find octomap_evaluation)/maps/indoors.ot.pcd"/>
+  <arg name="reading" default="$(find octomap_evaluation)/maps/indoors_v2.ot.pcd"/>
+
+  <node name="icp_node" pkg="octomap_evaluation" type="icp" output="screen" args="$(arg yaml_file) $(arg reference) $(arg reading)" required="true"/>
+
+</launch>
