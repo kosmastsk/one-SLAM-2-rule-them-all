@@ -4,15 +4,19 @@
 #include "octomap_evaluation/octomap_to_pc.h"
 
 /* Main function */
-int main(int argc, char **argv) {
+int main(int argc, char** argv)
+{
   ros::init(argc, argv, "octomap_to_pc");
 
-  if (argc != 2) {
+  if (argc != 2)
+  {
     ROS_INFO("\n[USAGE] rosrun octomap_evaluation octomap_to_pc_node "
              "<filename.[ot|bt]>\n");
     return 1;
-  } else {
-    octomap_to_pc::Converter object(argv);
+  }
+  else
+  {
+    octomap_to_pc::Converter converter(argv);
     ros::spin();
   }
 

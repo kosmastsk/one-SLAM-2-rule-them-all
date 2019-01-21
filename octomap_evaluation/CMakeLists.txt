@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(octomap_evaluation)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   octomap_ros
   pcl_ros
+  libpointmatcher
 )
 find_package(PCL REQUIRED)
 
@@ -49,3 +50,13 @@ add_executable(octomap_to_pc
   src/octomap_to_pc.cpp)
 target_link_libraries(octomap_to_pc ${catkin_LIBRARIES} ${PCL_LIBRARIES})
 add_dependencies(octomap_to_pc ${catkin_EXPORTED_TARGETS})
+
+find_package(libpointmatcher 1.1.0 REQUIRED)
+include_directories("${libpointmatcher_INCLUDE_DIRS}")
+message(STATUS "Using libpointmatcher version ${libpointmatcher_VERSION}")
+
+add_executable(icp
+  src/icp_node.cpp
+  src/icp.cpp)
+target_link_libraries(icp ${catkin_LIBRARIES} ${libpointmatcher_LIBRARIES})
+add_dependencies(icp ${catkin_EXPORTED_TARGETS})

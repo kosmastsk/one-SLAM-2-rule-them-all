@@ -23,8 +23,10 @@
 #include <pcl/point_types.h>
 #include <sensor_msgs/PointCloud2.h>
 
-namespace octomap_to_pc {
-class Converter {
+namespace octomap_to_pc
+{
+class Converter
+{
 private:
   // Variables
   ros::NodeHandle _nh;
@@ -32,22 +34,18 @@ private:
 
   // Methods
   // Different ones depending if we provide Binary or Colored octomap
-  pcl::PointCloud<pcl::PointXYZRGB>
-  octomapToPointCloud(octomap::ColorOcTree *octree, std::string filename);
+  pcl::PointCloud<pcl::PointXYZRGB> octomapToPointCloud(octomap::ColorOcTree* octree, std::string filename);
 
-  pcl::PointCloud<pcl::PointXYZ> octomapToPointCloud(octomap::OcTree *octree,
-                                                     std::string filename);
+  pcl::PointCloud<pcl::PointXYZ> octomapToPointCloud(octomap::OcTree* octree, std::string filename);
 
-  void savePointCloud(pcl::PointCloud<pcl::PointXYZRGB> cloud,
-                      std::string filename);
-  void savePointCloud(pcl::PointCloud<pcl::PointXYZ> cloud,
-                      std::string filename);
+  void savePointCloud(pcl::PointCloud<pcl::PointXYZRGB> cloud, std::string filename);
+  void savePointCloud(pcl::PointCloud<pcl::PointXYZ> cloud, std::string filename);
 
 public:
   Converter();
-  Converter(char *argv[]);
+  Converter(char* argv[]);
   ~Converter();
 };
-} // namespace octomap_to_pc
+}  // namespace octomap_to_pc
 
 #endif
