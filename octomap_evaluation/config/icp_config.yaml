@@ -1,20 +1,22 @@
 # Solution based on:
-# P Besl and H McKay, 1992. A method for registration of 3-D shapes.
-# Pattern Analysis and Machine Intelligence, IEEE Transactions on, 14, pp. 239 - 256.
+# Y Chen and G Medioni, 1991. Object modeling by registration of multiple range images. Robotics and
+# Automation. Proc. of IEEE International Conf. on, 3, pp. 2724 - 2729.
 # - and -
 # Chetverikov, D and Svirko, D and Stepanov, D and Krsek, P, 2002. The Trimmed Iterative Closest
 # Point algorithm. Pattern Recognition, 2002. Proceedings. 16th International Conference on, 3, pp. 2724 - 2729.
 readingDataPointsFilters:
   - MinDistDataPointsFilter:
-      minDist: 0.01
+      minDist: 1.0
   - RandomSamplingDataPointsFilter:
       prob: 0.05
 
 referenceDataPointsFilters:
   - MinDistDataPointsFilter:
       minDist: 1.0
-  - RandomSamplingDataPointsFilter:
-      prob: 0.05
+  - SamplingSurfaceNormalDataPointsFilter:
+      knn: 7
+      samplingMethod: 1
+      ratio: 0.1
 
 matcher:
   KDTreeMatcher:
@@ -23,10 +25,10 @@ matcher:
 
 outlierFilters:
   - TrimmedDistOutlierFilter:
-      ratio: 0.75
+      ratio: 0.7
 
 errorMinimizer:
-  PointToPointErrorMinimizer
+  PointToPlaneErrorMinimizer
 
 transformationCheckers:
   - CounterTransformationChecker:
