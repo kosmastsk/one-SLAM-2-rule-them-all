@@ -26,17 +26,43 @@ Converter::Converter(char* argv[])
 
   /*** Read Octomap ***/
   // Change function called depending on the suffix
+  // Having an .ot suffix does not ensure that it contains a ColorOcTree. So we have to check the id inside
   if (_filename.substr(_filename.length() - 2) == "ot")
   {
     octomap::AbstractOcTree* tree = octomap::AbstractOcTree::read(_filename);
-    octomap::ColorOcTree* _octree = dynamic_cast<octomap::ColorOcTree*>(tree);
-    pcl::PointCloud<pcl::PointXYZRGB> _cloud = octomapToPointCloud(_octree, argv[1]);
+
+    // Check if the id in the file really contains a ColorOcTree or is just an Octree
+    if (tree->getTreeType() == std::string("OcTree"))
+    {
+      octomap::OcTree* _octree = dynamic_cast<octomap::OcTree*>(tree);
+      if (!_octree)
+      {
+        ROS_ERROR("Could not read OcTree in file\n");
+      }
+      pcl::PointCloud<pcl::PointXYZ> _cloud = octomapToPointCloud(_octree, _filename);
+    }
+    else if (tree->getTreeType() == std::string("ColorOcTree"))
+    {
+      octomap::ColorOcTree* _octree = dynamic_cast<octomap::ColorOcTree*>(tree);
+      if (!_octree)
+      {
+        ROS_ERROR("Could not read ColorOcTree in file, currently there are no other types supported in .ot");
+      }
+      pcl::PointCloud<pcl::PointXYZRGB> _cloud = octomapToPointCloud(_octree, argv[1]);
+    }
   }
+  /* Binary */
   else if (_filename.substr(_filename.length() - 2) == "bt")
   {
     octomap::OcTree* _octree = new octomap::OcTree(_filename);
+    if (!_octree)
+    {
+      ROS_ERROR("Could not read OcTree in file\n");
+    }
     pcl::PointCloud<pcl::PointXYZ> _cloud = octomapToPointCloud(_octree, _filename);
   }
+
+  ros::shutdown();  // Job is done, node can shutdown now
 }
 
 /******************************/
@@ -53,18 +79,21 @@ Converter::~Converter()
 /*         with colour        */
 /******************************/
 
-pcl::PointCloud<pcl::PointXYZRGB> Converter::octomapToPointCloud(octomap::ColorOcTree* octree, std::string filename)
+pcl::PointCloud<pcl::PointXYZRGB> Converter::octomapToPointCloud(octomap::ColorOcTree* givenOctree,
+                                                                 std::string filename)
 {
+  ROS_INFO("Conversion to Point Cloud in progress ....\n");
   pcl::PointCloud<pcl::PointXYZRGB> cloud;
-  size_t leafs = octree->getNumLeafNodes();
+  size_t leafs = givenOctree->getNumLeafNodes();
 
   cloud.width = leafs;
   cloud.height = 1;
   cloud.is_dense = false;  // True if no points are invalid(NaN or Inf).
-
   cloud.points.resize(cloud.width * cloud.height);
+
   int i = 0;
-  for (octomap::ColorOcTree::leaf_iterator it = octree->begin_leafs(), end = octree->end_leafs(); it != end; ++it)
+  for (octomap::ColorOcTree::leaf_iterator it = givenOctree->begin_leafs(), end = givenOctree->end_leafs(); it != end;
+       ++it)
   {
     // Provide the coordinate values from octomap
     cloud.points[i].x = it.getCoordinate().x();
@@ -91,6 +120,7 @@ pcl::PointCloud<pcl::PointXYZRGB> Converter::octomapToPointCloud(octomap::ColorO
 
 pcl::PointCloud<pcl::PointXYZ> Converter::octomapToPointCloud(octomap::OcTree* octree, std::string filename)
 {
+  ROS_INFO("Conversion to Point Cloud in progress ....\n");
   pcl::PointCloud<pcl::PointXYZ> cloud;
 
   size_t leafs = octree->getNumLeafNodes();
@@ -137,7 +167,7 @@ void Converter::savePointCloud(pcl::PointCloud<pcl::PointXYZRGB> cloud, std::str
   std::string path = ros::package::getPath("octomap_evaluation");
   path = path.c_str() + std::string("/maps/") + filename + std::string(".pcd");
   pcl::io::savePCDFileASCII(path, cloud);
-  std::cerr << "[INFO] Saved " << cloud.points.size() << " date points to " << path << std::endl;
+  ROS_INFO("Saved %lu date points to %s\n", cloud.points.size(), path.c_str());
 }
 
 /******************************/
@@ -160,7 +190,7 @@ void Converter::savePointCloud(pcl::PointCloud<pcl::PointXYZ> cloud, std::string
   std::string path = ros::package::getPath("octomap_evaluation");
   path = path.c_str() + std::string("/maps/") + filename + std::string(".pcd");
   pcl::io::savePCDFileASCII(path, cloud);
-  std::cerr << "[INFO] Saved " << cloud.points.size() << " date points to " << path << std::endl;
+  ROS_INFO("Saved %lu date points to %s\n", cloud.points.size(), path.c_str());
 }
 
 }  // namespace octomap_to_pc
