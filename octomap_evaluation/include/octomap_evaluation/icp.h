@@ -23,7 +23,7 @@
 
 namespace icp
 {
-class Transformation
+class Icp
 {
 private:
   // Variables
@@ -39,9 +39,9 @@ private:
   std::string extractFilename(std::string full_path);
 
 public:
-  Transformation();
-  Transformation(char* argv[]);
-  ~Transformation();
+  Icp();
+  Icp(char* argv[]);
+  ~Icp();
 };
 
 }  // namespace icp

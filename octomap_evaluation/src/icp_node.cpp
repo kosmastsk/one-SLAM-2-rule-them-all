@@ -17,7 +17,7 @@ int main(int argc, char** argv)
   }
   else
   {
-    icp::Transformation transformation(argv);
+    icp::Icp icp(argv);
     ros::spin();
   }
 

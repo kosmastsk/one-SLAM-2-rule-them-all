@@ -8,7 +8,7 @@ namespace icp
 /*        Constructor         */
 /******************************/
 
-Transformation::Transformation()
+Icp::Icp()
 {
   ROS_INFO("Icp empty object created");
 }
@@ -17,7 +17,7 @@ Transformation::Transformation()
 /* Constructor with arguments */
 /******************************/
 
-Transformation::Transformation(char* argv[])
+Icp::Icp(char* argv[])
 {
   // Get the octomap filename from the user
   _params = argv[1];
@@ -61,18 +61,20 @@ Transformation::Transformation(char* argv[])
   // pcl_viewer -multiview 1 indoors.ot.pcd indoors_v2.ot.pcd result_icp.pcd
   //                             OR
   // pcl_viewer indoors.ot.pcd indoors_v2.ot.pcd result_icp.pcd
+
+  ros::shutdown();  // Job is done, node can shutdown now
 }
 
 /******************************/
 /*        Destructor          */
 /******************************/
 
-Transformation::~Transformation()
+Icp::~Icp()
 {
   ROS_INFO("Class Icp has been destroyed\n");
 }
 
-std::string Transformation::extractFilename(std::string full_path)
+std::string Icp::extractFilename(std::string full_path)
 {
   // https://stackoverflow.com/questions/8520560/get-a-file-name-from-a-path
   // Remove directory if present.
