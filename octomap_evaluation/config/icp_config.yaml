@@ -4,6 +4,9 @@
 # - and -
 # Chetverikov, D and Svirko, D and Stepanov, D and Krsek, P, 2002. The Trimmed Iterative Closest
 # Point algorithm. Pattern Recognition, 2002. Proceedings. 16th International Conference on, 3, pp. 2724 - 2729.
+
+# https://github.com/ethz-asl/libpointmatcher/blob/master/doc/Configuration.md
+# EDIT PARAMETERS FROM HERE
 readingDataPointsFilters:
   - MinDistDataPointsFilter:
       minDist: 1.0
@@ -42,5 +45,5 @@ inspector:
   PerformanceInspector
 
 logger:
-#  FileLogger
-  NullLogger
+  FileLogger
+#  NullLogger

@@ -28,6 +28,8 @@ Icp::Icp(char* argv[])
   const PointMatcher<float>::DataPoints ref(PointMatcherIO<float>::loadPCD(_reference));
   const PointMatcher<float>::DataPoints data(PointMatcherIO<float>::loadPCD(_reading));
 
+  setLogger(PointMatcher<float>::get().LoggerRegistrar.create("FileLogger"));
+
   // Load a data filters configuration for ICP using yaml file
   std::ifstream ifs(_params);
   if (!ifs.good())
