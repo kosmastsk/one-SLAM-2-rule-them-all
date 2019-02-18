@@ -60,3 +60,9 @@ add_executable(icp
   src/icp.cpp)
 target_link_libraries(icp ${catkin_LIBRARIES} ${libpointmatcher_LIBRARIES})
 add_dependencies(icp ${catkin_EXPORTED_TARGETS})
+
+add_executable(calculate_metric
+  src/calculate_metric_node.cpp
+  src/calculate_metric.cpp)
+target_link_libraries(calculate_metric ${catkin_LIBRARIES} ${PCL_LIBRARIES})
+add_dependencies(calculate_metric ${catkin_EXPORTED_TARGETS})
