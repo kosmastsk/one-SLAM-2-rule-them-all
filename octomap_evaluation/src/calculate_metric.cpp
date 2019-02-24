@@ -29,9 +29,11 @@ Metric::Metric(char* argv[])
     ros::shutdown();
   }
 
-  _metric = calculateMetric();
+  _mse = calculateMSE();
+  ROS_INFO("MSE: %f \n", _mse);
 
-  ROS_INFO("Metric value: %f \n", _metric);
+  _q = calculateQ();
+  ROS_INFO("Q: %f \n", _q);
 
   ros::shutdown();  // Job is done, node can shutdown now
 }
@@ -72,10 +74,10 @@ int Metric::loadPointClouds(char* argv[])
 }
 
 /******************************/
-/*      calculateMetric       */
+/*       calculateMSE         */
 /******************************/
 
-double Metric::calculateMetric()
+double Metric::calculateMSE()
 {
   double result = 0;
   std::string distNorm = "Euclidean";
@@ -94,6 +96,24 @@ double Metric::calculateMetric()
 }
 
 /******************************/
+/*         calculateQ         */
+/******************************/
+
+double Metric::calculateQ()
+{
+  ROS_INFO("Entered calculateQ() \n");
+  double quality;
+  float k = 3;  // can be changed
+
+  // In order to create a normalized MSE we use an exponential, the width and height of the ground truth point cloud and
+  // a constant
+  quality =
+      exp(-(k / (_groundTruth->width * _groundTruth->width + _groundTruth->height * _groundTruth->height)) * _mse);
+
+  return quality;
+}
+
+/******************************/
 /*  bruteForceNearestNeighbor */
 /******************************/
 
@@ -101,6 +121,8 @@ double Metric::bruteForceNearestNeighbor(pcl::PointXYZRGB points, std::string di
 {
   double minDst = calculateDistance(points, _groundTruth->points[0], distNorm);
   double dst;
+
+  /* #pragma omp parallel for */  // Uncomment this for using OpenMP
   for (int i = 0; i < _groundTruth->width; i++)
   {
     dst = calculateDistance(points, _groundTruth->points[i], distNorm);

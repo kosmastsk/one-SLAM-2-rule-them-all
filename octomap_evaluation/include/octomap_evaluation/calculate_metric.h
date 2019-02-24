@@ -26,10 +26,12 @@ protected:
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr _groundTruth;
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr _slamMap;
 
-  double _metric;
+  double _mse;
+  double _q;
 
   int loadPointClouds(char* argv[]);
-  double calculateMetric();
+  double calculateMSE();
+  double calculateQ();
 
   double bruteForceNearestNeighbor(pcl::PointXYZRGB points, std::string distNorm);
 

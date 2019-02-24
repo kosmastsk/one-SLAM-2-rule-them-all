@@ -4,6 +4,9 @@ project(octomap_evaluation)
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
 
+## Enable the following for using OpenMP in Metric's calculation
+option(WITH_OPENMP "Include OpenMP support" OFF) # When it turns ON, do not forget to uncomment line 125 @ calculate_metric.cpp
+
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
@@ -17,6 +20,13 @@ find_package(PCL REQUIRED)
 
 find_package(libpointmatcher 1.1.0 REQUIRED)
 message(STATUS "Using libpointmatcher version ${libpointmatcher_VERSION}")
+
+if (WITH_OPENMP)
+  find_package(OpenMP REQUIRED)
+  SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+  SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+endif()
 
 ###################################
 ## catkin specific configuration ##
