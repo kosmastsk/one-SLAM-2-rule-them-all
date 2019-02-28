@@ -22,6 +22,8 @@
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include <sensor_msgs/PointCloud2.h>
+#include <pcl/filters/voxel_grid.h>
+#include <pcl/conversions.h>
 
 namespace octomap_to_pc
 {
@@ -34,9 +36,12 @@ private:
 
   // Methods
   // Different ones depending if we provide Binary or Colored octomap
-  pcl::PointCloud<pcl::PointXYZRGB> octomapToPointCloud(octomap::ColorOcTree* octree, std::string filename);
 
+  pcl::PointCloud<pcl::PointXYZRGB> octomapToPointCloud(octomap::ColorOcTree* octree, std::string filename);
   pcl::PointCloud<pcl::PointXYZ> octomapToPointCloud(octomap::OcTree* octree, std::string filename);
+
+  pcl::PointCloud<pcl::PointXYZ> subsampleCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
+  pcl::PointCloud<pcl::PointXYZRGB> subsampleCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud);
 
   void savePointCloud(pcl::PointCloud<pcl::PointXYZRGB> cloud, std::string filename);
   void savePointCloud(pcl::PointCloud<pcl::PointXYZ> cloud, std::string filename);
@@ -47,5 +52,4 @@ public:
   ~Converter();
 };
 }  // namespace octomap_to_pc
-
 #endif
