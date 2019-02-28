@@ -7,6 +7,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 // ROS headers
 #include <ros/package.h>

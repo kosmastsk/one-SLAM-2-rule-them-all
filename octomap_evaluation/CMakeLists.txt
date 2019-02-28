@@ -21,6 +21,10 @@ find_package(PCL REQUIRED)
 find_package(libpointmatcher 1.1.0 REQUIRED)
 message(STATUS "Using libpointmatcher version ${libpointmatcher_VERSION}")
 
+find_package(OCTOMAP REQUIRED)
+include_directories(${OCTOMAP_INCLUDE_DIRS})
+link_libraries(${OCTOMAP_LIBRARIES})
+
 if (WITH_OPENMP)
   find_package(OpenMP REQUIRED)
   SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
