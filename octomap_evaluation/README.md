@@ -2,9 +2,9 @@
 
 ## Overview
 
-Octomap evaluation package has as input two octomap files, received from SLAM algorithms, in order to extract some evaluation metrics. First, the octomap files are converted to Point Cloud files and then the [libpointmatcher](https://github.com/ethz-asl/libpointmatcher/) library is used to apply an ICP transformation between the two point clouds and align them.
+Octomap evaluation package has as input two octomap files, received from SLAM algorithms, in order to extract some evaluation metrics. First, the octomap files are converted to Point Cloud files and then the [libpointmatcher](https://github.com/ethz-asl/libpointmatcher/) library is used to apply an ICP transformation between the two point clouds and align them. Finallly, MSE and a normalized metric is used to compare the two octomaps.
 
-**Keywords:** octomap, evaluation, point cloud, icp
+**Keywords:** octomap, evaluation, point cloud, icp, mse
 
 The octomap_evaluation package has been tested under ROS Kinetic and Ubuntu 16.04.
 
