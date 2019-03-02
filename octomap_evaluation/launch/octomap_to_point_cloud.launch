@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+  <!-- Octomap file path -->
+  <arg name="octomap" default="$(find octomap_evaluation)/maps/indoors.ot"/>
+
+  <node name="octomap_to_pc" pkg="octomap_evaluation" type="octomap_to_pc" output="screen" args="$(arg octomap)" required="true"/>
+
+</launch>
