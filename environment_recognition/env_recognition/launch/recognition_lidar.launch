@@ -1,0 +1,8 @@
+<launch>
+
+	<node pkg="env_recognition" type="recognition_lidar" name="recognition_lidar" output="screen">
+		<param name="threshold_variance" type="int" value="5"/> 
+		<param name="threshold_density" type="int" value="80"/>
+	</node>
+	
+</launch>
