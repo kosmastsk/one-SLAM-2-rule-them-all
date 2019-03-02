@@ -38,8 +38,8 @@ private:
   // Methods
   // Different ones depending if we provide Binary or Colored octomap
 
-  pcl::PointCloud<pcl::PointXYZRGB> octomapToPointCloud(octomap::ColorOcTree* octree, std::string filename);
-  pcl::PointCloud<pcl::PointXYZ> octomapToPointCloud(octomap::OcTree* octree, std::string filename);
+  pcl::PointCloud<pcl::PointXYZRGB> octomapToPointCloud(octomap::ColorOcTree* octree);
+  pcl::PointCloud<pcl::PointXYZ> octomapToPointCloud(octomap::OcTree* octree);
 
   pcl::PointCloud<pcl::PointXYZ> subsampleCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
   pcl::PointCloud<pcl::PointXYZRGB> subsampleCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud);

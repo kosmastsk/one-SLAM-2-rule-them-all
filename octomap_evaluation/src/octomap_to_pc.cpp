@@ -113,8 +113,6 @@ pcl::PointCloud<pcl::PointXYZRGB> Converter::octomapToPointCloud(octomap::ColorO
   // mycloudPtr=subsampleCloud(mycloudPtr);
   cloud = subsampleCloud(mycloudPtr);
 
-  savePointCloud(cloud, filename);
-
   return cloud;
 }
 
@@ -151,8 +149,6 @@ pcl::PointCloud<pcl::PointXYZ> Converter::octomapToPointCloud(octomap::OcTree* o
   pcl::PointCloud<pcl::PointXYZ>::Ptr mycloudPtr(new pcl::PointCloud<pcl::PointXYZ>(cloud));
   // mycloudPtr=subsampleCloud(mycloudPtr);
   cloud = subsampleCloud(mycloudPtr);
-
-  savePointCloud(cloud, filename);
 
   return cloud;
 }
