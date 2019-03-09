@@ -40,6 +40,7 @@ void RecognitionLidar::initValues (void)
 	counter_msgs_ = 0;
 	sum_vars_ = 0;
 	sum_features_ = 0;
+	sum_dist_ = 0;
 	temp_env_ = ""; 
 	index_ = 0;
 	samples_ = 0;
@@ -48,6 +49,7 @@ void RecognitionLidar::initValues (void)
 	{
 		list_vars_[i] = 0;
 		list_features_[i] = 0;
+		list_dist_[i] = 0;
 	}
 }
 
@@ -80,16 +82,27 @@ void RecognitionLidar::initParams (void)
 			Using Default");
 		threshold_in_out_ = 80.0;
 	}
-	
-	if (n_.hasParam(ros::this_node::getName() + "/threshold_complexity"))
+
+	if (n_.hasParam(ros::this_node::getName() + "/threshold_density_in"))
 	{
-		n_.getParam(ros::this_node::getName() + "/threshold_complexity", threshold_complexity_);
+		n_.getParam(ros::this_node::getName() + "/threshold_density_in", threshold_density_in_);
 	}  
 	else 
 	{
-		ROS_WARN("[Parameters] Parameter threshold_complexity not found.\
+		ROS_WARN("[Parameters] Parameter threshold_density_in not found.\
 			Using Default");
-		threshold_complexity_ = 30.0;
+		threshold_density_in_ = 5.0;
+	}
+
+	if (n_.hasParam(ros::this_node::getName() + "/threshold_density_out"))
+	{
+		n_.getParam(ros::this_node::getName() + "/threshold_density_out", threshold_density_out_);
+	}  
+	else 
+	{
+		ROS_WARN("[Parameters] Parameter threshold_density_out not found.\
+			Using Default");
+		threshold_density_out_ = 7.0;
 	}
 }
 
@@ -105,6 +118,8 @@ void RecognitionLidar::laserCallback (const sensor_msgs::LaserScan::ConstPtr &ms
 	temp_env_ = ""; 
 	temp_var_ = 0;
 	temp_features_ = 0;
+	temp_dist_ = 0;
+	temp_average_dist_ = 0;
 	counter_inf_ = 0;
 
 	for(int i=1; i<ranges_size_; i++)
@@ -124,12 +139,21 @@ void RecognitionLidar::laserCallback (const sensor_msgs::LaserScan::ConstPtr &ms
 			}
 		}
 
-		//! Count infinite values
+		//! If the scan is infinite, raise infinite counter by 1. Also, add the max_range to the sum distances. 
+		//! If it isn't, add the scanned distance to the sum distances. 
 		if(msg_laser->ranges[i] > msg_laser->range_max)
+		{
 			counter_inf_++;
+			temp_dist_ += msg_laser->range_max;
+		}
+		else
+			temp_dist_ += msg_laser->ranges[i];
 	}
 
+	//! Store the value of all ranges. Then calculate their mean value.
 	temp_features_ = ranges_size_- 1 - counter_inf_; 
+	temp_average_dist_ = (float)temp_dist_/(ranges_size_ - 1);
+
 	averageValues();
 }
 
@@ -150,7 +174,7 @@ void RecognitionLidar::averageValues (void)
 	counter_msgs_++;
 
 	//! Temp variable to store the element of the list that is going to be overriden
-	int previous;
+	float previous;
 
 	//! Calculate average variance so far
 	previous = list_vars_[index_];
@@ -165,15 +189,24 @@ void RecognitionLidar::averageValues (void)
 	average_features_ = (float)sum_features_/samples_;
 	in_out_ = 100*(average_features_/ (ranges_size_-1));
 
+	//! Calculate average distances so far
+	previous = list_dist_[index_];
+	list_dist_[index_] = temp_average_dist_;
+	sum_dist_ += list_dist_[index_] - previous;
+	average_dist_ = sum_dist_/samples_;
+
 	ROS_INFO("*[threshold_variance_] %.2f", threshold_variance_);
 	ROS_INFO("*[threshold_in_out_] %.2f%%", threshold_in_out_);
-	ROS_INFO("*[threshold_complexity_] %.2f%%", threshold_complexity_);
+	ROS_INFO("*[threshold_density_in_] %.2f", threshold_density_in_);
+	ROS_INFO("*[threshold_density_out_] %.2f", threshold_density_out_);
 	ROS_INFO("*[index_] %d", index_);
 	ROS_INFO("*[samples_] %d", samples_);
 	ROS_INFO("*[temp_var_] %d", temp_var_);
 	ROS_INFO("*[average_var_] %.2f", average_var_);
-	ROS_INFO("*[temp_features_] %d", temp_features_);
+	ROS_INFO("*[temp_features_] %.2f%%", 100*((float)temp_features_/(ranges_size_-1)));
 	ROS_INFO("*[in_out_] %.2f%%", in_out_);
+	ROS_INFO("*[temp_average_dist_] %.2f", temp_average_dist_);
+	ROS_INFO("*[average_dist_] %.2f", average_dist_);
 	ROS_INFO("*************************************************");
 	
 	//! Raise the index
@@ -185,9 +218,15 @@ void RecognitionLidar::caseCheck(void)
 {
 	string in_out;
 	string variance;
+	string density;
 	if(in_out_ <= threshold_in_out_)
 	{
 		in_out = "|| In/Out: Outdoors || Walls: No  ";
+
+		if(average_dist_ <= threshold_density_out_)
+			density = "|| Density: Dense  ||";
+		else
+			density = "|| Density: Sparse ||";
 
 		if(average_var_ == 0.0)
 			variance = "|| Features: No  ";
@@ -199,20 +238,22 @@ void RecognitionLidar::caseCheck(void)
 		in_out = "|| In/Out: Indoors  || Walls: Yes ";
 
 		if(average_var_ <= threshold_variance_)
+		{
 			variance = "|| Features: No  ";
+			density  = "|| Density: ---    ||";
+		}
 		else
+		{
 			variance = "|| Features: Yes ";
-	}
-
-	string complexity;
-	if(average_var_ <= threshold_complexity_)
-		complexity = "|| Complexity: Simple  ||";
-	else
-		complexity = "|| Complexity: Complex ||";
-	
+			if(average_dist_ <= threshold_density_in_)
+				density = "|| Density: Dense  ||";
+			else
+				density = "|| Density: Sparse ||";
+		}
+	}	
 
 	//temp_env_ = variance + in_out;
-	temp_env_ = variance + in_out + complexity;
+	temp_env_ = variance + in_out + density;
 	if(previous_ != temp_env_)
 	{
 		previous_ = temp_env_;

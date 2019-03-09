@@ -31,17 +31,24 @@ class RecognitionLidar
 		float average_features_;	//! Mean value of the last 100 non-ininite ranges
 		float in_out_;				//! Percent value of average_features_ (out of all the ranges)
 
+		int temp_dist_;				//! Non-infinite distances of each measurement
+		float temp_average_dist_;	//! Mean value of all non-infinite distances of each measurement
+		float list_dist_[100];		//! A list of the last 100 mean values of non-infinite distances of each measurement
+		float sum_dist_;	    	//! Sum of the last 100 mean values of non-infinite distances of each measurement
+		float average_dist_;		//! Mean value of the last 100 mean values of non-infinite distances of each measurement
+
 		int counter_msgs_;			//! Counts the laser measuremets so far
 		int counter_inf_;			//! Counts the infinite values at each measurement
 		int index_;					//! Index of the list we are working on 
 		int samples_; 				//! Samples, from which average value will occur
 		string temp_env_;			//! Environment type to be published
-		string previous_;
+		string previous_;			//! Stores the previous recognized environment
 		
 		//! ROS Parameters
 		float threshold_variance_;		//! Lower -> Walls    || Higher -> Features (maybe with walls)
-		float threshold_complexity_;	//! Lower -> Simple   || Higher -> Complex
 		float threshold_in_out_;		//! Lower -> Outdoors || Higher -> Indoors
+		float threshold_density_in_;	//! Lower -> Dense 	  || Higher -> Sparse
+		float threshold_density_out_;	//! Lower -> Dense    || Higher -> Sparse
 
 		//! ROS Publisher
 		ros::Publisher env_pub_;
