@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+  <!-- Reference and reading octomap file path -->
+  <arg name="reference" default="$(find octomap_evaluation)/maps/indoors.ot"/>
+  <arg name="reading" default="$(find octomap_evaluation)/maps/indoors_v2.ot"/>
+
+  <node name="octomap_evaluation" pkg="octomap_evaluation" type="octomap_evaluation" output="screen" args="$(arg reference) $(arg reading)"/>
+
+</launch>

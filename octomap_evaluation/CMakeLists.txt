@@ -80,3 +80,8 @@ add_executable(calculate_metric
   src/calculate_metric.cpp)
 target_link_libraries(calculate_metric ${catkin_LIBRARIES} ${PCL_LIBRARIES})
 add_dependencies(calculate_metric ${catkin_EXPORTED_TARGETS})
+
+add_executable(octomap_evaluation
+  src/octomap_evaluation.cpp)
+target_link_libraries(octomap_evaluation ${catkin_LIBRARIES} ${PCL_LIBRARIES})
+add_dependencies(octomap_evaluation ${catkin_EXPORTED_TARGETS})
