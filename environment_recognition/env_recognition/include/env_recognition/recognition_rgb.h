@@ -10,10 +10,15 @@
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui.hpp>
 
+using namespace cv;
 using namespace std;
 
 namespace env_recognition
 {
+static int lowThreshold_ = 40;
+static const int ratio_ = 3;
+static const int kernel_size_ = 3;
+
 class RecognitionRgb
 {
 	private:
@@ -26,18 +31,26 @@ class RecognitionRgb
 		float sum_gray_; 			//! Sum of the last 100 grayscale average values
 		float average_gray_;		//! Mean value of the last 100 grayscale average values
 
+		float temp_edges_;			//! Percentage of the non-black values (meaning the edges)
+		float list_edges_[100];		//! A list of the last 100 non-black values
+		float sum_edges_; 			//! Sum of the last 100 non-black values
+		float average_edges_;		//! Mean value of the last 100 non-black values
+
 		string temp_env_;			//! Environment type to be published
-		string previous_;			//! The previous type of environment
+		string previous_;
 		int counter_msgs_;			//! Counts the laser and grayscale measuremets so far
 		int index_;					//! Index of the list we are working on 
 		int samples_; 				//! Samples, from which average value will occur
 
 		//! OpenCV variables
-		cv_bridge::CvImagePtr cv_ptr_; 	//! Here we store a copy of out RGB image and then modify it
+		cv_bridge::CvImagePtr src_;	//! The cv format of the received image
+		Mat src_gray_;				//! The grayscale format of the cv image
+    	Mat dst_, detected_edges_;	//! The edge format of the grayscale image
 		
 		//! ROS Parameters
 		float threshold_brightness_;	//! Higher -> Bright
-		float threshold_darkness_;		//! Lower -> Dark
+		float threshold_darkness_;		//! Lower  -> Dark
+		float threshold_complexity_;    //! Lower  -> Simple || Higher -> Complex
 
 		//! ROS Publisher
 		ros::Publisher env_pub_;

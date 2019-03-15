@@ -39,6 +39,7 @@ void RecognitionRgb::initValues (void)
 {
 	counter_msgs_ = 0;
 	sum_gray_ = 0;
+	sum_edges_ = 0;
 	temp_env_ = ""; 
 	index_ = 0;
 	samples_ = 0;
@@ -46,6 +47,7 @@ void RecognitionRgb::initValues (void)
 	for(int i; i<100; i++)
 	{
 		list_gray_[i] = 0;
+		list_edges_[i] = 0;
 	}
 }
 
@@ -78,20 +80,30 @@ void RecognitionRgb::initParams (void)
 			Using Default");
 		threshold_darkness_ = 80.0;
 	}
+
+	if (n_.hasParam(ros::this_node::getName() + "/threshold_complexity"))
+	{
+		n_.getParam(ros::this_node::getName() + "/threshold_complexity", threshold_complexity_);
+	}  
+	else 
+	{
+		ROS_WARN("[Parameters] Parameter threshold_complexity not found.\
+			Using Default");
+		threshold_complexity_ = 2.0;
+	}
 }
 
 /*
-**************************************************
-*    Get data from rgb camera and modify them    * 
-**************************************************
+**********************************
+*    Get data from rgb camera    * 
+**********************************
 */
 
 void RecognitionRgb::rgbCallback (const sensor_msgs::Image::ConstPtr &msg_rgb)
 {
-	//! Convert the image from RGB to Grayscale
     try
     {
-    	cv_ptr_ = cv_bridge::toCvCopy(msg_rgb, sensor_msgs::image_encodings::BGR8);
+    	src_ = cv_bridge::toCvCopy(msg_rgb, sensor_msgs::image_encodings::BGR8);
     }
     catch (cv_bridge::Exception& e)
     {
@@ -99,18 +111,33 @@ void RecognitionRgb::rgbCallback (const sensor_msgs::Image::ConstPtr &msg_rgb)
       	return;
     }
     
-    cv::Mat grayMat;
-    cv::cvtColor(cv_ptr_->image, grayMat, cv::COLOR_BGR2GRAY);
+    //! RGB -> Gray
+    cvtColor(src_->image, src_gray_, COLOR_BGR2GRAY);
     
-    //! Calculate the average of all the grayscale values of the current measurement
 	int sum = 0;
-	int size = cv_ptr_->image.rows * cv_ptr_->image.cols;
+	int size = src_gray_.rows * src_gray_.cols;
 
+	//! Brightness detection
 	for(int i=0; i<size; i++)
-		sum += cv_ptr_->image.data[i];
+		sum += src_gray_.data[i];
 
-	temp_gray_ = (float)sum/(float)size;
-	averageValues();
+	temp_gray_ = (float)sum/size;
+
+	//! Edges detection
+	blur(src_gray_, detected_edges_, Size(3,3));
+    Canny(detected_edges_, detected_edges_, lowThreshold_, lowThreshold_*ratio_, kernel_size_);
+    dst_ = Scalar::all(0);
+    src_->image.copyTo(dst_, detected_edges_);
+
+    temp_edges_ = 0;
+    for(int i = 0; i < dst_.rows; ++i) 
+        for(int j = 0; j < dst_.cols; j++)
+            if (dst_.at<float>(i,j) != 0)
+                ++temp_edges_;
+
+    temp_edges_ = 100 * ((temp_edges_)/((dst_.rows) * (dst_.cols)));
+
+    averageValues();
 }
 
 /*
@@ -129,19 +156,27 @@ void RecognitionRgb::averageValues (void)
 		samples_++;
 	counter_msgs_++;
 
-	//! This variable to store the element of the list that is going to be overriden
+	//! Temp variable to store the element of the list that is going to be overriden
 	float previous;
 
-	//! Calculate average grayscale values so far
+	//! Calculate average gray values so far
 	previous = list_gray_[index_];
 	list_gray_[index_] = temp_gray_;
 	sum_gray_ += list_gray_[index_] - previous;
-	average_gray_ = sum_gray_ / (float)samples_;
+	average_gray_ = sum_gray_/samples_;
+
+	//! Calculate average edges so far
+	previous = list_edges_[index_];
+	list_edges_[index_] = temp_edges_;
+	sum_edges_ += list_edges_[index_] - previous;
+	average_edges_ = sum_edges_/samples_;
 
 	ROS_INFO("*[index_] %d", index_);
 	ROS_INFO("*[samples_] %d", samples_);
 	ROS_INFO("*[temp_gray_] %.2f", temp_gray_);
 	ROS_INFO("*[average_gray_] %.2f", average_gray_);
+	ROS_INFO("*[temp_edges_] %.2f%%", temp_edges_);
+	ROS_INFO("*[average_edges_] %.2f%%", average_edges_);
 	ROS_INFO("*************************************************");
 	
 	//! Raise the index
@@ -149,24 +184,24 @@ void RecognitionRgb::averageValues (void)
 	caseCheck();
 }
 
-/*
-*******************************************************************
-*    Check the type of environment we are into, and publish it    *  
-*******************************************************************
-*/
-
 void RecognitionRgb::caseCheck (void)
 {
 	string brightness;
 	if(average_gray_ < threshold_darkness_)
-		brightness = "|| Brightness: Dark   ||";
+		brightness = "|| Brightness: Dark   ";
 	else if(average_gray_ > threshold_brightness_)
-		brightness = "|| Brightness: Bright ||";
+		brightness = "|| Brightness: Bright ";
 	else
-		brightness = "|| Brightness: Normal ||";
+		brightness = "|| Brightness: Normal ";
+
+	string complexity;
+	if(average_gray_ < threshold_complexity_)
+		complexity = "|| Complexity: Simple  ||";
+	else
+		complexity = "|| Complexity: Complex ||";
 
 	//temp_env_ = brightness;
-	temp_env_ = brightness;
+	temp_env_ = brightness + complexity;
 	if(previous_ != temp_env_)
 	{
 		previous_ = temp_env_;
