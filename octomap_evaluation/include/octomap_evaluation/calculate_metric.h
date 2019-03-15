@@ -23,19 +23,21 @@ protected:
   // Variables
   ros::NodeHandle _nh;
 
-  pcl::PointCloud<pcl::PointXYZRGB>::Ptr _groundTruth;
-  pcl::PointCloud<pcl::PointXYZRGB>::Ptr _slamMap;
+  pcl::PointCloud<pcl::PointXYZ>::Ptr _groundTruth;
+  pcl::PointCloud<pcl::PointXYZ>::Ptr _slamMap;
 
   double _mse;
   double _q;
 
-  int loadPointClouds(char* argv[]);
-  double calculateMSE();
-  double calculateQ();
+  int loadPointClouds(char* argv[], pcl::PointCloud<pcl::PointXYZ>::Ptr groundTruth,
+                      pcl::PointCloud<pcl::PointXYZ>::Ptr slamMap);
+  double calculateMSE(pcl::PointCloud<pcl::PointXYZ>::Ptr groundTruth, pcl::PointCloud<pcl::PointXYZ>::Ptr slamMap);
+  double calculateQ(pcl::PointCloud<pcl::PointXYZ>::Ptr groundTruth, double mse);
 
-  double bruteForceNearestNeighbor(pcl::PointXYZRGB points, std::string distNorm);
+  double bruteForceNearestNeighbor(pcl::PointXYZ points, std::string distNorm,
+                                   pcl::PointCloud<pcl::PointXYZ>::Ptr groundTruth);
 
-  double calculateDistance(pcl::PointXYZRGB slamPoints, pcl::PointXYZRGB groundTruthPoints, std::string distNorm);
+  double calculateDistance(pcl::PointXYZ slamPoints, pcl::PointXYZ groundTruthPoints, std::string distNorm);
 
 public:
   Metric();

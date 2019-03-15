@@ -2,9 +2,10 @@
 <launch>
 
   <!-- Reference and reading octomap file path -->
-  <arg name="reference" default="$(find octomap_evaluation)/maps/indoors.ot"/>
-  <arg name="reading" default="$(find octomap_evaluation)/maps/indoors_v2.ot"/>
+  <arg name="reference" default="$(find octomap_evaluation)/maps/indoors.bt"/>
+  <arg name="reading" default="$(find octomap_evaluation)/maps/indoors_v2.bt"/>
+  <arg name="yaml_file" default="$(find octomap_evaluation)/config/icp_config.yaml"/>
 
-  <node name="octomap_evaluation" pkg="octomap_evaluation" type="octomap_evaluation" output="screen" args="$(arg reference) $(arg reading)"/>
+  <node name="octomap_evaluation" pkg="octomap_evaluation" type="octomap_evaluation" output="screen" args="$(arg reference) $(arg reading) $(arg yaml_file)"/>
 
 </launch>

@@ -5,7 +5,7 @@ project(octomap_evaluation)
 add_compile_options(-std=c++11)
 
 ## Enable the following for using OpenMP in Metric's calculation
-option(WITH_OPENMP "Include OpenMP support" OFF) # When it turns ON, do not forget to uncomment line 125 @ calculate_metric.cpp
+option(WITH_OPENMP "Include OpenMP support" ON) # When it turns ON, do not forget to uncomment line 127 @ calculate_metric.cpp
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -42,7 +42,7 @@ endif()
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
+  INCLUDE_DIRS include
 #  LIBRARIES octomap_evaluation
 #  CATKIN_DEPENDS roscpp
 #  DEPENDS system_lib
@@ -82,6 +82,8 @@ target_link_libraries(calculate_metric ${catkin_LIBRARIES} ${PCL_LIBRARIES})
 add_dependencies(calculate_metric ${catkin_EXPORTED_TARGETS})
 
 add_executable(octomap_evaluation
-  src/octomap_evaluation.cpp)
-target_link_libraries(octomap_evaluation ${catkin_LIBRARIES} ${PCL_LIBRARIES})
+  src/octomap_evaluation.cpp
+  src/octomap_to_pc.cpp
+  src/calculate_metric.cpp)
+target_link_libraries(octomap_evaluation ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${libpointmatcher_LIBRARIES})
 add_dependencies(octomap_evaluation ${catkin_EXPORTED_TARGETS})

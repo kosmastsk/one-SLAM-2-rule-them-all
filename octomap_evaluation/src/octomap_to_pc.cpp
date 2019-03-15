@@ -10,7 +10,7 @@ namespace octomap_to_pc
 
 Converter::Converter()
 {
-  ROS_INFO("Converter empty object created");
+  ROS_DEBUG("Converter empty object created");
 }
 
 /******************************/
@@ -38,6 +38,10 @@ Converter::Converter(char* argv[])
         ROS_ERROR("Could not read OcTree in file\n");
       }
       pcl::PointCloud<pcl::PointXYZ> _cloud = octomapToPointCloud(_octree);
+      // Create pointer pointing to cloud
+      pcl::PointCloud<pcl::PointXYZ>::Ptr mycloudPtr(new pcl::PointCloud<pcl::PointXYZ>(_cloud));
+      // mycloudPtr=subsampleCloud(mycloudPtr);
+      _cloud = subsampleCloud(mycloudPtr);
       savePointCloud(_cloud, _filename);
     }
     else if (tree->getTreeType() == std::string("ColorOcTree"))
@@ -48,6 +52,10 @@ Converter::Converter(char* argv[])
         ROS_ERROR("Could not read ColorOcTree in file, currently there are no other types supported in .ot");
       }
       pcl::PointCloud<pcl::PointXYZRGB> _cloud = octomapToPointCloud(_octree);
+      // Create pointer pointing to cloud
+      pcl::PointCloud<pcl::PointXYZRGB>::Ptr mycloudPtr(new pcl::PointCloud<pcl::PointXYZRGB>(_cloud));
+      // mycloudPtr=subsampleCloud(mycloudPtr);
+      _cloud = subsampleCloud(mycloudPtr);
       savePointCloud(_cloud, _filename);
     }
   }
@@ -60,6 +68,10 @@ Converter::Converter(char* argv[])
       ROS_ERROR("Could not read OcTree in file\n");
     }
     pcl::PointCloud<pcl::PointXYZ> _cloud = octomapToPointCloud(_octree);
+    // Create pointer pointing to cloud
+    pcl::PointCloud<pcl::PointXYZ>::Ptr mycloudPtr(new pcl::PointCloud<pcl::PointXYZ>(_cloud));
+    // mycloudPtr=subsampleCloud(mycloudPtr);
+    _cloud = subsampleCloud(mycloudPtr);
     savePointCloud(_cloud, _filename);
   }
 
@@ -72,7 +84,7 @@ Converter::Converter(char* argv[])
 
 Converter::~Converter()
 {
-  ROS_INFO("Class converter has been destroyed\n");
+  ROS_DEBUG("Class converter has been destroyed\n");
 }
 
 /******************************/
@@ -108,11 +120,6 @@ pcl::PointCloud<pcl::PointXYZRGB> Converter::octomapToPointCloud(octomap::ColorO
     i++;
   }
 
-  // Create pointer pointing to cloud
-  pcl::PointCloud<pcl::PointXYZRGB>::Ptr mycloudPtr(new pcl::PointCloud<pcl::PointXYZRGB>(cloud));
-  // mycloudPtr=subsampleCloud(mycloudPtr);
-  cloud = subsampleCloud(mycloudPtr);
-
   return cloud;
 }
 
@@ -144,11 +151,6 @@ pcl::PointCloud<pcl::PointXYZ> Converter::octomapToPointCloud(octomap::OcTree* o
 
     i++;
   }
-
-  // Create pointer pointing to cloud
-  pcl::PointCloud<pcl::PointXYZ>::Ptr mycloudPtr(new pcl::PointCloud<pcl::PointXYZ>(cloud));
-  // mycloudPtr=subsampleCloud(mycloudPtr);
-  cloud = subsampleCloud(mycloudPtr);
 
   return cloud;
 }
@@ -206,7 +208,7 @@ void Converter::savePointCloud(pcl::PointCloud<pcl::PointXYZ> cloud, std::string
 pcl::PointCloud<pcl::PointXYZ> Converter::subsampleCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud)
 {
   pcl::PointCloud<pcl::PointXYZ>::Ptr mycloudPtr(new pcl::PointCloud<pcl::PointXYZ>);
-  ROS_INFO("Original cloud data = %lu bytes", cloud->points.size());
+  ROS_INFO("Original cloud data = %lu points", cloud->points.size());
   ROS_INFO("Subsampling starts ... \n");
 
   // Create the filtering object
@@ -214,14 +216,14 @@ pcl::PointCloud<pcl::PointXYZ> Converter::subsampleCloud(pcl::PointCloud<pcl::Po
   vox.setInputCloud(cloud);
   vox.setLeafSize(0.5f, 0.5f, 0.5f);
   vox.filter(*mycloudPtr);
-  ROS_INFO("Subsampling ended. Filtered cloud data = %lu bytes \n", mycloudPtr->points.size());
+  ROS_INFO("Subsampling ended. Filtered cloud data = %lu points \n", mycloudPtr->points.size());
   return *mycloudPtr;
 }
 
 pcl::PointCloud<pcl::PointXYZRGB> Converter::subsampleCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud)
 {
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr mycloudPtr(new pcl::PointCloud<pcl::PointXYZRGB>);
-  ROS_INFO("Original cloud data = %lu bytes", cloud->points.size());
+  ROS_INFO("Original cloud data = %lu points", cloud->points.size());
   ROS_INFO("Subsampling starts ... \n");
 
   // Create the filtering object
@@ -229,7 +231,7 @@ pcl::PointCloud<pcl::PointXYZRGB> Converter::subsampleCloud(pcl::PointCloud<pcl:
   vox.setInputCloud(cloud);
   vox.setLeafSize(0.1f, 0.1f, 0.1f);
   vox.filter(*mycloudPtr);
-  ROS_INFO("Subsampling ended. Filtered cloud data = %lu bytes \n", mycloudPtr->points.size());
+  ROS_INFO("Subsampling ended. Filtered cloud data = %lu points \n", mycloudPtr->points.size());
   return *mycloudPtr;
 }
 

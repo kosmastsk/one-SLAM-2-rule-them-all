@@ -10,7 +10,7 @@ namespace icp
 
 Icp::Icp()
 {
-  ROS_INFO("Icp empty object created");
+  ROS_DEBUG("Icp empty object created");
 }
 
 /******************************/
@@ -73,7 +73,7 @@ Icp::Icp(char* argv[])
 
 Icp::~Icp()
 {
-  ROS_INFO("Class Icp has been destroyed\n");
+  ROS_DEBUG("Class Icp has been destroyed\n");
 }
 
 std::string Icp::extractFilename(std::string full_path)
