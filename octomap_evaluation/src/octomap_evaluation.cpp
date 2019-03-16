@@ -78,10 +78,14 @@ int main(int argc, char** argv)
   // Save PointCloud file
   conv.savePointCloud(slam_cloud, slam_map);
 
+  // After the conversion the paths are the same, with .pcd in the end
+  ground_truth_map += std::string(".pcd");
+  slam_map += std::string(".pcd");
+
   // Apply the ICP to the 2nd map
   // Load point clouds as DataPoints
-  const PointMatcher<float>::DataPoints ref(PointMatcherIO<float>::loadPCD(ground_truth_map + std::string(".pcd")));
-  const PointMatcher<float>::DataPoints data(PointMatcherIO<float>::loadPCD(slam_map + std::string(".pcd")));
+  const PointMatcher<float>::DataPoints ref(PointMatcherIO<float>::loadPCD(ground_truth_map));
+  const PointMatcher<float>::DataPoints data(PointMatcherIO<float>::loadPCD(slam_map));
 
   // Load a data filters configuration for ICP using yaml file
   std::ifstream ifs(params);
@@ -113,8 +117,8 @@ int main(int argc, char** argv)
 
   paths[1] = new char[100];
   paths[2] = new char[100];
-  std::strcpy(paths[1], (ground_truth_map + std::string(".pcd")).c_str());
-  std::strcpy(paths[2], (slam_map + std::string(".pcd")).c_str());
+  std::strcpy(paths[1], (ground_truth_map).c_str());
+  std::strcpy(paths[2], (slam_map).c_str());
 
   calculate_metric::Metric metric(paths);
 

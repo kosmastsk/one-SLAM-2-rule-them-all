@@ -34,7 +34,7 @@ Metric::Metric(char* argv[])
   _q = calculateQ(_groundTruth, _mse);
   ROS_INFO("Q: %f \n", _q);
 
-  ros::shutdown();  // Job is done, node can shutdown now
+  // ros::shutdown();  // Job is done, node can shutdown now
 }
 
 /******************************/
