@@ -2,8 +2,13 @@
 #include "octomap_evaluation/icp.h"
 #include "octomap_evaluation/calculate_metric.h"
 
+// (Un)comment the following lines, depending your needs
+
 // simple timing benchmark output
-#define _BENCH_TIME 0
+#define _BENCH_TIME
+
+// Evaluation needs conversion of octomaps to Point Cloud. It is possible to keep or delete them
+// #define DELETE_POINT_CLOUDS_AFTER_EVALUATION
 
 int main(int argc, char** argv)
 {
@@ -41,7 +46,7 @@ int main(int argc, char** argv)
   }
 
   // GROUND TRUTH MAP
-  ROS_INFO("Handling the ground truth map\n");
+  ROS_DEBUG("Handling the ground truth map\n");
   octomap::OcTree* gnd_octree = new octomap::OcTree(ground_truth_map);
   if (!gnd_octree)
   {
@@ -60,7 +65,7 @@ int main(int argc, char** argv)
   conv.savePointCloud(gnd_cloud, ground_truth_map);
 
   // SLAM MAP
-  ROS_INFO("Handling the SLAM provided map\n");
+  ROS_DEBUG("Handling the SLAM provided map\n");
   octomap::OcTree* slam_octree = new octomap::OcTree(slam_map);
   if (!slam_octree)
   {
@@ -120,11 +125,18 @@ int main(int argc, char** argv)
   std::strcpy(paths[1], (ground_truth_map).c_str());
   std::strcpy(paths[2], (slam_map).c_str());
 
+  // Metric constructor implements of the functionality for calculating it, so we just need an object of it
   calculate_metric::Metric metric(paths);
 
 #if defined(_BENCH_TIME)
   double dt = (ros::WallTime::now() - startTime).toSec();
   ROS_INFO_STREAM("Octomap evaluation took " << dt << " seconds.");
+#endif
+
+#if defined(DELETE_POINT_CLOUDS_AFTER_EVALUATION)
+  ROS_INFO("Deleting Point Clouds ....\n");
+  remove(ground_truth_map.c_str());
+  remove(slam_map.c_str());
 #endif
 
   // Free up memoery
