@@ -35,22 +35,21 @@ private:
   ros::NodeHandle _nh;
   std::string _filename;
 
-  // Methods
-  // Different ones depending if we provide Binary or Colored octomap
-
-  pcl::PointCloud<pcl::PointXYZRGB> octomapToPointCloud(octomap::ColorOcTree* octree);
-  pcl::PointCloud<pcl::PointXYZ> octomapToPointCloud(octomap::OcTree* octree);
-
-  pcl::PointCloud<pcl::PointXYZ> subsampleCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
-  pcl::PointCloud<pcl::PointXYZRGB> subsampleCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud);
-
-  void savePointCloud(pcl::PointCloud<pcl::PointXYZRGB> cloud, std::string filename);
-  void savePointCloud(pcl::PointCloud<pcl::PointXYZ> cloud, std::string filename);
-
 public:
   Converter();
   Converter(char* argv[]);
   ~Converter();
+
+  // Methods
+  // Different ones depending if we provide Binary or Colored octomap
+  pcl::PointCloud<pcl::PointXYZRGB> octomapToPointCloud(octomap::ColorOcTree* octree);
+  pcl::PointCloud<pcl::PointXYZ> octomapToPointCloud(octomap::OcTree* octree);
+
+  void savePointCloud(pcl::PointCloud<pcl::PointXYZRGB> cloud, std::string filename);
+  void savePointCloud(pcl::PointCloud<pcl::PointXYZ> cloud, std::string filename);
+
+  pcl::PointCloud<pcl::PointXYZ> subsampleCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
+  pcl::PointCloud<pcl::PointXYZRGB> subsampleCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud);
 };
 }  // namespace octomap_to_pc
 #endif
