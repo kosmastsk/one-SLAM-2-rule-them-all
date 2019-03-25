@@ -4,6 +4,9 @@
   <!-- Octomap file path -->
   <arg name="octomap" default="$(find octomap_evaluation)/maps/indoors.ot"/>
 
+  <!-- Leaf size for point cloud subsampling-->
+  <param name="leaf_size" type="double" value="0.06" />
+
   <node name="octomap_to_pc" pkg="octomap_evaluation" type="octomap_to_pc" output="screen" args="$(arg octomap)" required="true"/>
 
 </launch>

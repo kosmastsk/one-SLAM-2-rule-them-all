@@ -209,14 +209,23 @@ pcl::PointCloud<pcl::PointXYZ> Converter::subsampleCloud(pcl::PointCloud<pcl::Po
 {
   pcl::PointCloud<pcl::PointXYZ>::Ptr mycloudPtr(new pcl::PointCloud<pcl::PointXYZ>);
   ROS_INFO("Original cloud data = %lu points", cloud->points.size());
+
   ROS_INFO("Subsampling starts ... \n");
 
   // Create the filtering object
   pcl::VoxelGrid<pcl::PointXYZ> vox;
   vox.setInputCloud(cloud);
-  vox.setLeafSize(0.5f, 0.5f, 0.5f);
+
+  double leaf_size;
+  _nh.param<double>("/leaf_size", leaf_size, 0.02);
+  vox.setLeafSize(leaf_size, leaf_size, leaf_size);
+
   vox.filter(*mycloudPtr);
   ROS_INFO("Subsampling ended. Filtered cloud data = %lu points \n", mycloudPtr->points.size());
+
+  double rate = double((cloud->points.size() - mycloudPtr->points.size())) / double(cloud->points.size()) * 100;
+  ROS_INFO("Subsampling rate %f %s\n", rate, "%");
+
   return *mycloudPtr;
 }
 
@@ -224,14 +233,23 @@ pcl::PointCloud<pcl::PointXYZRGB> Converter::subsampleCloud(pcl::PointCloud<pcl:
 {
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr mycloudPtr(new pcl::PointCloud<pcl::PointXYZRGB>);
   ROS_INFO("Original cloud data = %lu points", cloud->points.size());
+
   ROS_INFO("Subsampling starts ... \n");
 
   // Create the filtering object
   pcl::VoxelGrid<pcl::PointXYZRGB> vox;
   vox.setInputCloud(cloud);
-  vox.setLeafSize(0.1f, 0.1f, 0.1f);
+
+  double leaf_size;
+  _nh.param<double>("/leaf_size", leaf_size, 0.02);
+  vox.setLeafSize(leaf_size, leaf_size, leaf_size);
+
   vox.filter(*mycloudPtr);
   ROS_INFO("Subsampling ended. Filtered cloud data = %lu points \n", mycloudPtr->points.size());
+
+  double rate = double((cloud->points.size() - mycloudPtr->points.size())) / double(cloud->points.size()) * 100;
+  ROS_INFO("Subsampling rate %f %s\n", rate, "%");
+
   return *mycloudPtr;
 }
 
