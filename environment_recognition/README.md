@@ -64,6 +64,9 @@ In general, node "recognition_rgb" subscribes to the /camera/rgb/image_raw topic
 ###### rgbCallback()
 - Make a copy of the RGB image and convert it to Grayscale, so that we can detect brightness.
 - Calculate the average of all the Grayscale values of each measurement
+- Make an opencv format copy of the Grayscale image
+- Implement the Canny Edge Detection
+- Calculate the average of all the edges of each measurement
 
 ###### averageValues()
 - For the first 100 scans, raise the *samples_* by 1. Then, keep it to 100, so that we always calculate the average value of the last 100 scans. Also, reset the index of the lists (*index_*), everytime it reaches 100.
@@ -75,8 +78,10 @@ In general, node "recognition_rgb" subscribes to the /camera/rgb/image_raw topic
   | Variable | Content |    
   | --- | --- |
   | average_gray_ | At each measurement, the camera sees some Grayscale data after the convertion we make (RGB -> Grayscale). This variable holds the mean value of the average Grayscale values at the last 100 scans. |
+  | average_edges_ | At each measurement, the camera sees the percentage of the edges, compared to the whole image. This variable holds the mean value of the average edge percentage values at the last 100 scans. |
   | threshold_brightness_ | A threshold we set, in order for the system to decide if it detects a bright environment. |
-  | threshold_darkness_  | A threshold we set, in order for the system to decide if it detects a dark environment. |      
+  | threshold_darkness_  | A threshold we set, in order for the system to decide if it detects a dark environment. |
+  | threshold_complexity_  | A threshold we set, in order for the system to decide if the environment is complex or simple (RGB wise). |
 
 ###### Decision tree
 1. **average_gray_ < threshold_darkness_**
@@ -91,9 +96,47 @@ In general, node "recognition_rgb" subscribes to the /camera/rgb/image_raw topic
 
    The environment is normal (light wise).
 
+4. **average_edges_ < threshold_complexity_**
+
+   The environment is Simple (RGB wise)
+
+5. **average_edges_ > threshold_complexity_**
+
+   The environment is Complex (RGB wise)
+
+### 3. recognition_depth
+In general, node "recognition_depth" subscribes to the /camera/depth/image_raw topic, and publishes the environmental type at the /environment topic. Also during the whole procedure, it prints the values of some useful variables, so that we can check on the same time if the result is the expected one. In detail:
+
+###### depthCallback()
+- Make a copy of the depth image and convert it to uint8 format
+- Make an opencv format copy of that image
+- Implement the Canny Edge Detection
+- Calculate the average of all the edges of each measurement
+
+###### averageValues()
+- For the first 100 scans, raise the *samples_* by 1. Then, keep it to 100, so that we always calculate the average value of the last 100 scans. Also, reset the index of the lists (*index_*), everytime it reaches 100.
+- At each scan, throw away the value we added 101 scans before, and add the current one. In that way, we always get the average value from the last 100 scans, without having it reseted.
+
+###### caseCheck() 
+- Check the environmental type, according to the information received from the whole procedure. We end up with the following variables, which are going to be our metrics for the environmental type decision:
+
+  | Variable | Content |    
+  | --- | --- |
+  | average_edges_ | At each measurement, the camera sees the percentage of the edges, compared to the whole image. This variable holds the mean value of the average edge percentage values at the last 100 scans. |
+  | threshold_complexity_  | A threshold we set, in order for the system to decide if the environment is complex or simple (depth wise). |
+
+###### Decision tree
+1. **average_edges_ < threshold_complexity_**
+
+   The environment is Simple (depth wise)
+
+2. **average_edges_ > threshold_complexity_**
+
+   The environment is Complex (depth wise)
+
 ## How to run it
 
 1. Launch a turtlebot_gazebo world
 2. Launch turtlebot_teleop or a navigation algorithm
 3. Echo the topic /environment
-4. Launch recognition_lidar.launch and recognition_rgb.launch (change the parameters' values if needed)
+4. Launch recognition.launch and change the parameters' values if needed (for detailed results, run each node individually, by running the corresponding launch file).

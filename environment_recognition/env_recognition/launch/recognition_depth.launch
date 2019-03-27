@@ -1,0 +1,7 @@
+<launch>
+	
+	<node pkg="env_recognition_test" type="recognition_depth" name="recognition_depth" output="screen">
+		<param name="threshold_complexity" type="int" value="1"/>
+	</node>
+
+</launch>

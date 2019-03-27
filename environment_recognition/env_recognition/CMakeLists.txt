@@ -46,3 +46,10 @@ target_link_libraries(recognition_rgb
 add_dependencies(recognition_rgb 
   ${catkin_EXPORTED_TARGETS})
 
+add_executable(recognition_depth 
+  src/recognition_depth_node.cpp
+  src/recognition_depth.cpp)
+target_link_libraries(recognition_depth 
+  ${catkin_LIBRARIES})
+add_dependencies(recognition_depth 
+  ${catkin_EXPORTED_TARGETS})
