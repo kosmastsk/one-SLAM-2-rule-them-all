@@ -1,0 +1,20 @@
+<launch>
+
+	<node pkg="env_recognition_test" type="recognition_lidar" name="recognition_lidar" output="screen">
+		<param name="threshold_variance" type="int" value="5"/> 
+		<param name="threshold_in_out" type="int" value="80"/>
+		<param name="threshold_density_in" type="int" value="5"/>
+		<param name="threshold_density_out" type="int" value="7"/>
+	</node>
+
+	<node pkg="env_recognition_test" type="recognition_rgb" name="recognition_rgb" output="screen">
+		<param name="threshold_brightness" type="int" value="180"/>
+		<param name="threshold_darkness" type="int" value="80"/>
+		<param name="threshold_complexity" type="int" value="2"/>
+	</node>
+
+	<node pkg="env_recognition_test" type="recognition_depth" name="recognition_depth" output="screen">
+		<param name="threshold_complexity" type="int" value="1"/>
+	</node>
+
+</launch>

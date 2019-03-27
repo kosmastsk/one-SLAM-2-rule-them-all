@@ -15,22 +15,17 @@ using namespace std;
 
 namespace env_recognition
 {
-static int lowThreshold_ = 40;
+static int lowThreshold_ = 0;
 static const int ratio_ = 3;
 static const int kernel_size_ = 3;
 
-class RecognitionRgb
+class RecognitionDepth
 {
 	private:
 		ros::NodeHandle n_;
 		std_msgs::String msg_env_;	//! Publish the recognised environment through this msg
 
 		//! Random variables
-		float temp_gray_;			//! Average grayscale value of each measurement
-		float list_gray_[100];		//! A list of the last 100 grayscale average values
-		float sum_gray_; 			//! Sum of the last 100 grayscale average values
-		float average_gray_;		//! Mean value of the last 100 grayscale average values
-
 		float temp_edges_;			//! Percentage of the non-black values (meaning the edges)
 		float list_edges_[100];		//! A list of the last 100 non-black values
 		float sum_edges_; 			//! Sum of the last 100 non-black values
@@ -43,9 +38,9 @@ class RecognitionRgb
 		int samples_; 				//! Samples, from which average value will occur
 
 		//! OpenCV variables
-		cv_bridge::CvImagePtr src_;	//! The cv format of the received image
-		Mat src_gray_;				//! The grayscale format of the cv image
-    	Mat dst_, detected_edges_;	//! The edge format of the grayscale image
+		cv_bridge::CvImagePtr ptr_;	//! The cv format of the received image
+		Mat src_;					//! The uint8 format of the cv image
+    	Mat dst_, detected_edges_;	//! The edge format of the uint8 image
 		
 		//! ROS Parameters
 		float threshold_brightness_;	//! Higher -> Bright
@@ -61,13 +56,13 @@ class RecognitionRgb
 		//! Random Functions
 		void initParams 	(void);
 		void initValues		(void);
-		void rgbCallback	(const sensor_msgs::Image::ConstPtr &msg_rgb);
+		void depthCallback	(const sensor_msgs::Image::ConstPtr &msg_rgb);
 		void averageValues	(void);
 		void caseCheck		(void);
 
 	public:
-		RecognitionRgb 		(void);
-		~RecognitionRgb 	(void);
+		RecognitionDepth 		(void);
+		~RecognitionDepth 	(void);
 };
 }
 

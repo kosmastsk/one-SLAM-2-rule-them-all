@@ -1,4 +1,4 @@
-#include <env_recognition/recognition_rgb.h>
+#include <env_recognition/recognition_depth.h>
 
 namespace env_recognition
 { 
@@ -9,12 +9,12 @@ namespace env_recognition
 *********************
 */
 
-RecognitionRgb::RecognitionRgb (void)
+RecognitionDepth::RecognitionDepth (void)
 {
 	initParams();
 	initValues();
 
-	rgb_sub_ = n_.subscribe("/camera/rgb/image_raw", 10, &RecognitionRgb::rgbCallback, this);
+	rgb_sub_ = n_.subscribe("/camera/depth/image_raw", 10, &RecognitionDepth::depthCallback, this);
 	env_pub_ = n_.advertise<std_msgs::String>("/environment", 10);
 }
 
@@ -24,9 +24,9 @@ RecognitionRgb::RecognitionRgb (void)
 ********************
 */
 
-RecognitionRgb::~RecognitionRgb (void)
+RecognitionDepth::~RecognitionDepth (void)
 {
-	ROS_INFO("[RecognitionRgb] Node destroyed.");
+	ROS_INFO("[RecognitionDepth] Node destroyed.");
 }
 
 /*
@@ -35,20 +35,16 @@ RecognitionRgb::~RecognitionRgb (void)
 *****************************************
 */
 
-void RecognitionRgb::initValues (void)
+void RecognitionDepth::initValues (void)
 {
 	counter_msgs_ = 0;
-	sum_gray_ = 0;
 	sum_edges_ = 0;
 	temp_env_ = ""; 
 	index_ = 0;
 	samples_ = 0;
 
 	for(int i; i<100; i++)
-	{
-		list_gray_[i] = 0;
 		list_edges_[i] = 0;
-	}
 }
 
 /*
@@ -57,30 +53,8 @@ void RecognitionRgb::initValues (void)
 ***********************************
 */
 
-void RecognitionRgb::initParams (void)
+void RecognitionDepth::initParams (void)
 {
-	if (n_.hasParam(ros::this_node::getName() + "/threshold_brightness"))
-	{
-		n_.getParam(ros::this_node::getName() + "/threshold_brightness", threshold_brightness_);
-	}  
-	else 
-	{
-		ROS_WARN("[Parameters] Parameter threshold_brightness not found.\
-			Using Default");
-		threshold_brightness_ = 180.0;
-	}
-
-	if (n_.hasParam(ros::this_node::getName() + "/threshold_darkness"))
-	{
-		n_.getParam(ros::this_node::getName() + "/threshold_darkness", threshold_darkness_);
-	}  
-	else 
-	{
-		ROS_WARN("[Parameters] Parameter threshold_darkness not found.\
-			Using Default");
-		threshold_darkness_ = 80.0;
-	}
-
 	if (n_.hasParam(ros::this_node::getName() + "/threshold_complexity"))
 	{
 		n_.getParam(ros::this_node::getName() + "/threshold_complexity", threshold_complexity_);
@@ -89,21 +63,21 @@ void RecognitionRgb::initParams (void)
 	{
 		ROS_WARN("[Parameters] Parameter threshold_complexity not found.\
 			Using Default");
-		threshold_complexity_ = 2.0;
+		threshold_complexity_ = 1.0;
 	}
 }
 
 /*
-**********************************
-*    Get data from rgb camera    * 
-**********************************
+************************************
+*    Get data from depth camera    * 
+************************************
 */
 
-void RecognitionRgb::rgbCallback (const sensor_msgs::Image::ConstPtr &msg_rgb)
+void RecognitionDepth::depthCallback (const sensor_msgs::Image::ConstPtr &msg_rgb)
 {
     try
     {
-    	src_ = cv_bridge::toCvCopy(msg_rgb, sensor_msgs::image_encodings::BGR8);
+    	ptr_ = cv_bridge::toCvCopy(msg_rgb, sensor_msgs::image_encodings::TYPE_32FC1);
     }
     catch (cv_bridge::Exception& e)
     {
@@ -111,23 +85,14 @@ void RecognitionRgb::rgbCallback (const sensor_msgs::Image::ConstPtr &msg_rgb)
       	return;
     }
     
-    //! RGB -> Gray
-    cvtColor(src_->image, src_gray_, COLOR_BGR2GRAY);
-    
-	int sum = 0;
-	int size = src_gray_.rows * src_gray_.cols;
-
-	//! Brightness detection
-	for(int i=0; i<size; i++)
-		sum += src_gray_.data[i];
-
-	temp_gray_ = (float)sum/size;
+    // Depth -> CV_8U
+    ptr_->image.convertTo(src_, CV_8U);
 
 	//! Edges detection
-	blur(src_gray_, detected_edges_, Size(3,3));
+	blur(src_, detected_edges_, Size(3,3));
     Canny(detected_edges_, detected_edges_, lowThreshold_, lowThreshold_*ratio_, kernel_size_);
     dst_ = Scalar::all(0);
-    src_->image.copyTo(dst_, detected_edges_);
+    ptr_->image.copyTo(dst_, detected_edges_);
 
     temp_edges_ = 0;
     for(int i = 0; i < dst_.rows; ++i) 
@@ -146,7 +111,7 @@ void RecognitionRgb::rgbCallback (const sensor_msgs::Image::ConstPtr &msg_rgb)
 ************************************************
 */
 
-void RecognitionRgb::averageValues (void)
+void RecognitionDepth::averageValues (void)
 {
 	//! For the first 100 messages, raise the samples_ by 1. Then, keep it to 100
 	//! Also, reset the index of the list (index_), everytime it reaches 100
@@ -159,12 +124,6 @@ void RecognitionRgb::averageValues (void)
 	//! Temp variable to store the element of the list that is going to be overriden
 	float previous;
 
-	//! Calculate average gray values so far
-	previous = list_gray_[index_];
-	list_gray_[index_] = temp_gray_;
-	sum_gray_ += list_gray_[index_] - previous;
-	average_gray_ = sum_gray_/samples_;
-
 	//! Calculate average edges so far
 	previous = list_edges_[index_];
 	list_edges_[index_] = temp_edges_;
@@ -173,8 +132,6 @@ void RecognitionRgb::averageValues (void)
 
 	ROS_INFO("*[index_] %d", index_);
 	ROS_INFO("*[samples_] %d", samples_);
-	ROS_INFO("*[temp_gray_] %.2f", temp_gray_);
-	ROS_INFO("*[average_gray_] %.2f", average_gray_);
 	ROS_INFO("*[temp_edges_] %.2f%%", temp_edges_);
 	ROS_INFO("*[average_edges_] %.2f%%", average_edges_);
 	ROS_INFO("*************************************************");
@@ -184,24 +141,15 @@ void RecognitionRgb::averageValues (void)
 	caseCheck();
 }
 
-void RecognitionRgb::caseCheck (void)
+void RecognitionDepth::caseCheck (void)
 {
-	string brightness;
-	if(average_gray_ < threshold_darkness_)
-		brightness = "|| Brightness: Dark   ";
-	else if(average_gray_ > threshold_brightness_)
-		brightness = "|| Brightness: Bright ";
-	else
-		brightness = "|| Brightness: Normal ";
-
 	string complexity;
 	if(average_edges_ < threshold_complexity_)
-		complexity = "|| RGB Complexity: Simple  ||";
+		complexity = "|| Depth Complexity: Simple  ||";
 	else
-		complexity = "|| RGB Complexity: Complex ||";
+		complexity = "|| Depth Complexity: Complex ||";
 
-	//temp_env_ = brightness;
-	temp_env_ = brightness + complexity;
+	temp_env_ = complexity;
 	if(previous_ != temp_env_)
 	{
 		previous_ = temp_env_;
