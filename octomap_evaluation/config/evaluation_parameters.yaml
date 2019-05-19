@@ -1,0 +1,5 @@
+# Leaf size for point cloud subsampling
+leaf_size: 0.02
+
+# Delete point cloud files after evaluation
+delete_point_clouds: false

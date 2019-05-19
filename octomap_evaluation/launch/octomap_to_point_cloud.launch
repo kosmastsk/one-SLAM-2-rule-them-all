@@ -2,10 +2,10 @@
 <launch>
 
   <!-- Octomap file path -->
-  <arg name="octomap" default="$(find octomap_evaluation)/maps/indoors.ot"/>
+  <arg name="octomap" default="$(find octomap_evaluation)/maps/indoors.bt"/>
 
-  <!-- Leaf size for point cloud subsampling-->
-  <param name="leaf_size" type="double" value="0.06" />
+  <!-- Parameters -->
+  <rosparam command="load" file="$(find octomap_evaluation)/config/evaluation_parameters.yaml" />
 
   <node name="octomap_to_pc" pkg="octomap_evaluation" type="octomap_to_pc" output="screen" args="$(arg octomap)" required="true"/>
 

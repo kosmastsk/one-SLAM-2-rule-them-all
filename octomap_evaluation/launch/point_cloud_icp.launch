@@ -3,8 +3,8 @@
 
   <!-- Config file, reference and reading point cloud file path -->
   <arg name="yaml_file" default="$(find octomap_evaluation)/config/icp_config.yaml"/>
-  <arg name="reference" default="$(find octomap_evaluation)/maps/indoors.ot.pcd"/>
-  <arg name="reading" default="$(find octomap_evaluation)/maps/indoors_v2.ot.pcd"/>
+  <arg name="reference" default="$(find octomap_evaluation)/maps/indoors.bt.pcd"/>
+  <arg name="reading" default="$(find octomap_evaluation)/maps/indoors_v2.bt.pcd"/>
 
   <node name="icp_node" pkg="octomap_evaluation" type="icp" output="screen" args="$(arg yaml_file) $(arg reference) $(arg reading)" required="true"/>
 

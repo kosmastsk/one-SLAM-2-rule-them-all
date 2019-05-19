@@ -7,12 +7,10 @@
 // simple timing benchmark output
 #define _BENCH_TIME
 
-// Evaluation needs conversion of octomaps to Point Cloud. It is possible to keep or delete them
-// #define DELETE_POINT_CLOUDS_AFTER_EVALUATION
-
 int main(int argc, char** argv)
 {
   ros::init(argc, argv, "octomap_evaluation_node");
+  ros::NodeHandle nh;
 
   // Create objects from the classes that containc functionality
   octomap_to_pc::Converter conv;
@@ -133,13 +131,16 @@ int main(int argc, char** argv)
   ROS_INFO_STREAM("Octomap evaluation took " << dt << " seconds.");
 #endif
 
-#if defined(DELETE_POINT_CLOUDS_AFTER_EVALUATION)
-  ROS_INFO("Deleting Point Clouds ....\n");
-  remove(ground_truth_map.c_str());
-  remove(slam_map.c_str());
-#endif
+  bool delete_point_clouds;
+  nh.param<bool>("/delete_point_clouds", delete_point_clouds, false);
+  if (delete_point_clouds)
+  {
+    ROS_INFO("Deleting Point Clouds ....\n");
+    remove(ground_truth_map.c_str());
+    remove(slam_map.c_str());
+  }
 
-  // Free up memoery
+  // Free up memory
   delete[] paths;
 
   return 0;

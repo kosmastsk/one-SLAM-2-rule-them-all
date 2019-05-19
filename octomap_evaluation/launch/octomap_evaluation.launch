@@ -7,9 +7,8 @@
 
   <!-- ICP configuration -->
   <arg name="yaml_file" default="$(find octomap_evaluation)/config/icp_config.yaml"/>
-
-  <!-- Leaf size for point cloud subsampling-->
-  <param name="leaf_size" type="double" value="0.5" />
+  <!-- Parameters -->
+  <rosparam command="load" file="$(find octomap_evaluation)/config/evaluation_parameters.yaml" />
 
   <node name="octomap_evaluation" pkg="octomap_evaluation" type="octomap_evaluation" output="screen" args="$(arg reference) $(arg reading) $(arg yaml_file)"/>
 
